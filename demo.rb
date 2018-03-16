@@ -9,5 +9,8 @@ movies = MovieCollection.new('movies.txt')
 #movies.filter(genre: 'Comedy')
 #movies.stats(:genre)
 
-#puts movies.all.first.actors
-#puts movies.all.first.has_genre?('comedy')
+#puts movies.all.first.genre
+
+catch :stopProc do
+puts movies.has_genre?('Comedy')
+end
