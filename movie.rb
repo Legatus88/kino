@@ -11,7 +11,7 @@ class Movie
     @country = hash[:country]
     @starting_date = hash[:starting_date]
     @genre = hash[:genre]
-    @time = hash[:time]
+    @time = hash[:time].to_i
     @rate = hash[:rate]
     @producer = hash[:producer]
     @actors = hash[:actors]	  

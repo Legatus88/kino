@@ -17,25 +17,28 @@ class MovieCollection
 
 # Выдать сортированный список фильмов, например movies.sort_by(:date) — возвращает массив фильмов, отсортированных по дате выхода (и так для любого поля);
   def sort_by(parameter)
-  	if parameter == :time
-  	  all.sort_by {|hash| hash.send(parameter).to_i}
-  	else	
-      all.sort_by {|hash| hash.send(parameter)}
-    end
+  	all.sort_by {|hash| hash.send(parameter)}
   end
 
 # выдать фильтрованный список фильмов — по некоторым полям, вроде жанра и страны, например movies.filter(genre: 'Comedy') — возвращает массив фильмов с жанром «Comedy»;
   def filter(hash)
-  	key = hash.keys.first.to_sym
-  	value = hash.values.first.to_s
-  	filtered_hash = all.select{|single| single.send(key).include?(value)}
-  end	
+   key = hash.keys
+   value = hash.values   
+   selected_list = all.select{|movie| movie.send(key[0]).include?(value[0])}
+   
+   n = 1
+   while n != key.length 
+     selected_list = selected_list.select{|movie| movie.send(key[n]).include?(value[n])}  	
+   	 n += 1
+   end
+   selected_list
+  end
 
 # выдать статистику по запросу: режиссёр, актёр, год, месяц, страна, жанр — например, movies.stats(:director) возвращает хеш «имя режиссёра → количество фильмов»
   def stats(parameter)
-    cutted_arr = all.map {|hash| hash.send(parameter)}.sort
+    cutted_arr = all.map {|hash| hash.send(parameter).split(',')}.flatten.sort
     statistics_hash = Hash.new(0)
-    final_hash = cutted_arr.each_with_object(statistics_hash) {|year, list| list[year] += 1 }
+    final_hash = cutted_arr.each_with_object(statistics_hash) {|value, list| list[value] += 1 }
  	final_hash.each{ |hash, key, value|
  	  hash = "#{key} ---> #{value}" }
   end
@@ -44,10 +47,10 @@ class MovieCollection
   def has_genre?(parameter)
   	final_list = all.map{|hash| hash.genre}.select{|hash| hash.include?(parameter) }.length
   	if final_list == 0 
-  	  puts "Genre doesn't exist"
+  	  puts true
   	  throw :stopProc 
   	else
-  	  puts "It exists"
+  	  puts false
   	end
   end
 
