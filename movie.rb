@@ -1,5 +1,8 @@
 require 'csv'
 
+class MyError < StandardError
+end
+
 class Movie
   attr_accessor :my_hash, :link, :title, :year, :country, :starting_date, :genre, :time, :rate, :producer, :actors  
  
@@ -18,6 +21,11 @@ class Movie
   end
 
   def has_genre?(param)
-    genre.include?(param)
+    if genre.include?(param) == false
+      raise MyError, 'It doesn\'t exist'
+    else
+      true
+    end
   end
+
 end

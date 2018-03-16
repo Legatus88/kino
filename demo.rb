@@ -7,10 +7,13 @@ movies = MovieCollection.new('movies.txt')
 #puts movies.all
 #puts movies.sort_by(:time)
 #puts movies.filter(country: 'USA', actors: 'Ellen')
-puts movies.stats(:genre)
+#puts movies.stats(:genre)
 
 #puts movies.all.first.genre
 
 #catch :stopProc do
 #puts movies.has_genre?('Comedy')
 #end
+
+
+puts movies.all.first.has_genre?('Drama')

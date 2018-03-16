@@ -22,17 +22,17 @@ class MovieCollection
 
 # выдать фильтрованный список фильмов — по некоторым полям, вроде жанра и страны, например movies.filter(genre: 'Comedy') — возвращает массив фильмов с жанром «Comedy»;
   def filter(hash)
-    sorted_list = all
-    arr = hash.to_a 
-    arr.each {|key, values| sorted_list = sorted_list.select{|hash| hash.send(key).include?(values)}}
+    sorted_list = all 
+    hash.each {|key, values| sorted_list = sorted_list.select{|hash| hash.send(key).include?(values)}}
+    
+
     sorted_list
   end
 
 # выдать статистику по запросу: режиссёр, актёр, год, месяц, страна, жанр — например, movies.stats(:director) возвращает хеш «имя режиссёра → количество фильмов»
   def stats(parameter)
-    cutted_arr = all.map {|hash| hash.send(parameter)}.flatten.sort
-    statistics_hash = Hash.new(0)
-    final_hash = cutted_arr.each_with_object(statistics_hash) {|value, list| list[value] += 1 }
+    cutted_arr = all.flat_map(&parameter).sort
+    cutted_arr.each_with_object(Hash.new(0)) {|value, list| list[value] += 1 }
   end
 
 # Вот такое выражение: has_genre?('Tragedy') (когда такой жанр вообще не существует) — должно бросать исключение. А код в основном файле должен его перехватывать и печатать, что за исключение произошло
