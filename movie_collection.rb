@@ -6,16 +6,13 @@ class MovieCollection
 
   def initialize(file_name)
     @file = file_name 
+    @full_list = CSV.read(file, :col_sep => "|", :headers => %i[link title year country starting_date genre time rate producer actors]).map {|row|
+    Movie.new(row) }
   end  
 
-  def full_list
-  	full_list = CSV.read(file, :col_sep => "|", :headers => %i[link title year country starting_date genre time rate producer actors]).map {|row|
-    Movie.new(row) }
-  end
-  
 # Выдать список фильмов: all возвращает массив всех фильмов, которые в нём хранятся
   def all 
-    full_list
+    @full_list
   end
 
 # Выдать сортированный список фильмов, например movies.sort_by(:date) — возвращает массив фильмов, отсортированных по дате выхода (и так для любого поля);
