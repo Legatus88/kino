@@ -1,53 +1,44 @@
 require 'csv'
-require 'ostruct'
 
-class MovieCollection
-  attr_accessor :file
-
-  def initialize(file_name = 'movies.txt')
-    @file = file_name
-  end  
-  
-  def full_list
-    CSV.read(file, :col_sep => "|", :headers => %i[link title year country starting_date genre time rate producer actors]).map {|row|
-    OpenStruct.new(row.to_h) }
+class Movie
+  attr_accessor :my_hash, :link, :title, :year, :country, :starting_date, :genre, :time, :rate, :producer, :actors  
+ 
+  def initialize(hash={})
+    @my_hash = hash
+    @link = hash[:link]
+    @title = hash[:title]
+    @year = hash[:year]
+    @country = hash[:country]
+    @starting_date = hash[:starting_date]
+    @genre = hash[:genre]
+    @time = hash[:time]
+    @rate = hash[:rate]
+    @producer = hash[:producer]
+    @actors = hash[:actors]	  
   end
 
-  def nice_view(inner_def)
-  	inner_def.each do |hash|
-      puts "#{hash.title} (#{hash.starting_date}; #{hash.genre}) - #{hash.time}"		
-    end
+  def has_genre?(param)
+    genre.include?(param)
   end
-
-  def all 
-#  	puts full_list
-	nice_view(full_list)
-  end
-
-  def sort_by(param)
-  	if param == :time 
-      nice_view(full_list.sort_by {|hash| hash[:time].to_i})
-  	else
-      nice_view(full_list.sort_by(&param))
-  	end
-  end
-
-  def filter(parameter)
-  	parameter = parameter.to_a.flatten     
-    nice_view(full_list.select {|hash| hash[parameter[0].to_sym].include?(parameter[1].to_s)})
-  end
-
-  def stats(parameter)
-  	parameter = parameter.to_a.flatten     
-    value = full_list.select {|hash| hash[parameter[0].to_sym].include?(parameter[1].to_s)}.length
-  	puts "#{parameter[1]} => #{value} фильмов"
-  end
-
 end
 
-#movies = MovieCollection.new('movies.txt')
+class MovieCollection
+  attr_accessor :file 
 
-#movies.all
-#movies.sort_by(:time)
-#movies.filter(genre: 'Comedy')
-#movies.stats(country: 'France')
+  def initialize(file_name)
+    @file = file_name 
+  end  
+  
+  def all 
+    CSV.read(file, :col_sep => "|", :headers => %i[link title year country starting_date genre time rate producer actors]).map {|row|
+    Movie.new(row) }
+  end
+
+  def sort_by(parameter)
+    all.sort_by{|hash| hash.parameter}
+  end
+end
+
+movies = MovieCollection.new('movies.txt')
+
+puts movies.send(sort_by(time))
