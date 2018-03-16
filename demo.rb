@@ -4,13 +4,13 @@ require './movie'
 
 movies = MovieCollection.new('movies.txt')
 
-puts movies.all
-#movies.sort_by(:time)
-#movies.filter(genre: 'Comedy')
-#movies.stats(:genre)
+#puts movies.all
+#puts movies.sort_by(:time)
+#puts movies.filter(genre: 'Comedy')
+#puts movies.stats(:genre)
 
 #puts movies.all.first.genre
 
-#catch :stopProc do
-#puts movies.has_genre?('Comedy')
-#end
+catch :stopProc do
+puts movies.has_genre?('Comedy')
+end
