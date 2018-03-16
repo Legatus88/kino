@@ -10,7 +10,7 @@ class Movie
     @year = hash[:year]
     @country = hash[:country]
     @starting_date = hash[:starting_date]
-    @genre = hash[:genre]
+    @genre = hash[:genre].split(',')
     @time = hash[:time].to_i
     @rate = hash[:rate]
     @producer = hash[:producer]
