@@ -19,20 +19,22 @@ class Movie
   end
 
   def matches?(key, values)
-      if key.select {|cell| cell.include?(values.to_s)}.length == 0
-        false
+      if values.is_a? String
+        if key.select {|cell| cell.include?(values.to_s)}.length == 0
+          false
+        else 
+          true
+        end
       else 
-        true
-      end
+        false
+      end  
   end
 
 
   def has_genre?(param)
-    if col[:genre].select {|hash| hash.include?(param)}.length != 0
-      genre.include?(param)
-    else
-      raise 'Sorry, this genre doesn\'t exist'
-    end  
+    col[:genre].include?(param) || raise
+    rescue 
+    "Sorry, this genre doesn\'t exist"
   end
 
 end

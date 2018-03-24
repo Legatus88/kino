@@ -24,11 +24,7 @@ class MovieCollection
   def filter(parameter)
     parameter.reduce(all){|result, (key, value)| 
     result.select{|movie_list| 
-      if value.is_a? String
-        movie_list.matches?(movie_list.send(key), value)
-      else 
-        value === movie_list.send(key) 
-      end }}
+      movie_list.matches?(movie_list.send(key), value) || value === movie_list.send(key) }}
   end
 
 # выдать статистику по запросу: режиссёр, актёр, год, месяц, страна, жанр — например, movies.stats(:director) возвращает хеш «имя режиссёра → количество фильмов»
