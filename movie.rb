@@ -18,23 +18,16 @@ class Movie
     @actors = hash[:actors].split(',')
   end
 
-  def matches?(key, values)
-      if values.is_a? String
-        if key.select {|cell| cell.include?(values.to_s)}.length == 0
-          false
-        else 
-          true
-        end
-      else 
-        false
-      end  
+  def matches?(key, value)
+    key.include?(value) || raise 
+    rescue 
+    value === key
   end
-
 
   def has_genre?(param)
-    col[:genre].include?(param) || raise
-    rescue 
-    "Sorry, this genre doesn\'t exist"
+    col.flat_map{|hash| hash[:genre].split(',')}.include?(param) || raise
+    genre.include?(param)
+    rescue
+      "Sorry, this genre doesn\'t exist" 
   end
-
 end
