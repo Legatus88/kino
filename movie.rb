@@ -19,15 +19,13 @@ class Movie
   end
 
   def matches?(key, value)
-    key.include?(value) || raise 
-    rescue 
-    value === key
+    value === key || Array(value) === Array(value) & Array(key)
   end
 
   def has_genre?(param)
-    col.flat_map{|hash| hash[:genre].split(',')}.include?(param) || raise
+    col.include?(param) || raise
     genre.include?(param)
     rescue
-      "Sorry, this genre doesn\'t exist" 
+    "Sorry, this genre doesn\'t exist" 
   end
 end

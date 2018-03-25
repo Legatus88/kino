@@ -2,12 +2,13 @@ require 'csv'
 require './movie'
 
 class MovieCollection
-  attr_accessor :file, :csv_list  
+  attr_accessor :file, :csv_list, :genre_list  
 
   def initialize(file_name)
     @file = file_name
     @csv_list = CSV.read(file, :col_sep => "|", :headers => %i[link title year country starting_date genre time rate producer actors])
-    @full_list = csv_list.map { |row| Movie.new(row, self.csv_list) }
+    @genre_list = csv_list.flat_map{|row| row[:genre].split(',')}.uniq
+    @full_list = csv_list.map { |row| Movie.new(row, self.genre_list) }
   end  
 
 # Выдать список фильмов: all возвращает массив всех фильмов, которые в нём хранятся
