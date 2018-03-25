@@ -6,7 +6,7 @@ movies = MovieCollection.new('movies.txt')
 
 #puts movies.all
 #puts movies.sort_by(:time)
-puts movies.filter(year: 1980..1999, genre: 'Action', title: /terminator/i, actors: 'Linda Hamilton').length
+puts movies.filter(year: 1980..1985, genre: /War|Action/, title: /termin/i, actors: 'Linda Hamilton').length
 #puts movies.stats(:actors)
 #puts movies.all.first.has_genre?('War')
 
@@ -16,3 +16,7 @@ puts movies.filter(year: 1980..1999, genre: 'Action', title: /terminator/i, acto
 #puts a === c
 #puts a & c
 #year: 1980..1999, genre: 'Action', title: /termin/i, actors: 'Linda Hamilton'
+
+#e = /Comedy|War/
+#f = Array(e)
+#puts e.match(a.to_s)

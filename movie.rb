@@ -19,7 +19,7 @@ class Movie
   end
 
   def matches?(key, value)
-    value === key || Array(value) === Array(value) & Array(key)
+    value === key || Array(value) === Array(value) & Array(key) || value === key.to_s
   end
 
   def has_genre?(param)
