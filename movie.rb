@@ -19,13 +19,11 @@ class Movie
   end
 
   def matches?(key, value)
-    value === key || Array(value) === Array(value) & Array(key) || value === key.to_s
+    Array(key).any? {|cell| value === cell}  
   end
 
   def has_genre?(param)
     col.include?(param) || raise
-    genre.include?(param)
-    rescue
-    "Sorry, this genre doesn\'t exist" 
+    genre.include?(param)    
   end
 end
