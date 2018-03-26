@@ -19,11 +19,14 @@ class Movie
   end
 
   def matches?(key, value)
-    Array(key).any? {|cell| value === cell}  
+    Array(send(key)).any? {|cell| value === cell}
   end
 
   def has_genre?(param)
-    col.include?(param) || raise
-    genre.include?(param)    
+    col.include?(param) or raise ArgumentError, 'Sorry, this GENRE doesn\'t exist'
+    genre.include?(param)
   end
 end
+
+#можно как нибудь получить переменную объекта через переданный ключ? у меня получается только получить значение, 
+#но его ещё нужно отсплитить или привести к интеджеру

@@ -23,8 +23,8 @@ class MovieCollection
 
 # выдать фильтрованный список фильмов — по некоторым полям, вроде жанра и страны, например movies.filter(genre: 'Comedy') — возвращает массив фильмов с жанром «Comedy»;
   def filter(parameter)
-    parameter.reduce(all){|result, (key, value)| 
-    result.select{|movie_list| movie_list.matches?(movie_list.send(key), value)}}
+    parameter.reduce(all){|result, (key, value)|
+      result.select{|movie| movie.matches?(key, value)}}
   end
 
 # выдать статистику по запросу: режиссёр, актёр, год, месяц, страна, жанр — например, movies.stats(:director) возвращает хеш «имя режиссёра → количество фильмов»
