@@ -6,7 +6,7 @@ movies = MovieCollection.new('movies.txt')
 
 #puts movies.all
 #puts movies.sort_by(:time)
-puts movies.filter(year: 1980..1999, genre: /War|Action/, title: /terminator/i, actors: 'Linda Hamilton')
+#puts movies.filter(year: 1980..1999, genre: /Crime|Action/, title: /terminator/i, actors: 'Linda Hamilton')
 #puts movies.stats(:actors)
 
 
@@ -15,3 +15,8 @@ puts movies.filter(year: 1980..1999, genre: /War|Action/, title: /terminator/i, 
 #rescue ArgumentError => e
 #  puts e.message
 #end
+
+
+
+sh = Netflix.new('movies.txt')
+puts sh.show(title: /terminator/i)

@@ -1,5 +1,6 @@
 require 'csv'
 require './movie'
+require 'time'
 
 class MovieCollection
   attr_accessor :file, :csv_list, :genre_list  
@@ -31,5 +32,21 @@ class MovieCollection
   def stats(parameter)
     cutted_arr = all.flat_map(&parameter).sort
     cutted_arr.each_with_object(Hash.new(0)) {|value, list| list[value] += 1 }
+  end
+end
+
+class Netflix < MovieCollection
+  def show(parameter)
+    filter(parameter).each{|movie| 
+      puts "Now showing: #{movie.title} #{Time.at(0).utc.strftime("%H:%M:%S")} - #{Time.at(movie.time*60).utc.strftime("%H:%M:%S")}"}
+      exit
+  end
+end
+
+class Theater < MovieCollection
+  def show(parameter)
+    filter(parameter).each{|movie| 
+      puts "Now showing: #{movie.title} #{Time.at(0).utc.strftime("%H:%M:%S")} - #{Time.at(movie.time*60).utc.strftime("%H:%M:%S")}"}
+      exit
   end
 end

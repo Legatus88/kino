@@ -1,7 +1,7 @@
 require 'csv'
 
 class Movie
-  attr_accessor :col, :my_hash, :link, :title, :year, :country, :starting_date, :genre, :time, :rate, :producer, :actors  
+  attr_accessor :col, :my_hash, :link, :title, :year, :country, :starting_date, :genre, :time, :rate, :producer, :actors, :period  
  
   def initialize(hash={}, collection)
     @col = collection
