@@ -27,3 +27,49 @@ class Movie
     genre.include?(param)
   end
 end
+
+class AncientMovie < Movie
+  attr_accessor :period, :description, :cost
+
+  def initialize(hash={}, collection)
+    @cost = 1
+    @period = :ancient
+    @description = "#{hash[:title]} - старый фильм(#{hash[:year]})"
+    super
+  end
+end
+
+class ClassicMovie < Movie
+  attr_accessor :period, :description, :cost
+
+  def initialize(hash={}, collection)
+    @col = collection
+    @cost = 1.5
+    @period = :classic
+    @description = "#{hash[:title]} — классический фильм, режиссёр #{man = hash[:producer]}: " + 
+      col.select{|line| line[:producer] == man}.map{|line| line[:title]}.first(10).to_s
+    super
+  end
+end
+
+class ModernMovie < Movie
+  attr_accessor :period, :description, :cost
+
+  def initialize(hash={}, collection)
+    @cost = 3
+    @period = :modern
+    @description = "#{hash[:title]} - современное кино: #{hash[:actors]}"
+    super
+  end
+end
+
+class NewMovie < Movie
+  attr_accessor :period, :description, :cost
+
+  def initialize(hash={}, collection)
+    @cost = 5
+    @period = :new
+    @description = "#{hash[:title]} - новинка, вышло #{Time.now.strftime("%Y").to_i - hash[:year].to_i} лет назад!)"
+    super
+  end
+end  

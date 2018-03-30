@@ -2,21 +2,23 @@ require './movie_collection'
 require 'csv'
 require './movie'
 
-movies = MovieCollection.new('movies.txt')
+#movies = MovieCollection.new('movies.txt')
 
-#puts movies.all
-#puts movies.sort_by(:time)
-#puts movies.filter(year: 1980..1999, genre: /Crime|Action/, title: /terminator/i, actors: 'Linda Hamilton')
-#puts movies.stats(:actors)
-
+#oc = Netflix.new('movies.txt')
 
 #begin
-#puts movies.all.first.has_genre?('War')
+#oc.pay(5)
+#puts oc.balance
+#puts oc.show(title: "Pulp Fiction")
+#puts oc.balance
+#puts oc.show(title: "The Terminator")
+#puts oc.balance
 #rescue ArgumentError => e
 #  puts e.message
 #end
 
+#puts oc.how_much?(title: "The Terminator")
 
-
-sh = Netflix.new('movies.txt')
-puts sh.show(title: /terminator/i)
+oc = Theater.new('movies.txt')
+#puts oc.show("9am")
+puts oc.when?('Rashomon')
