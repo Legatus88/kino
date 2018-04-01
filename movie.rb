@@ -4,6 +4,15 @@ class Movie
 
   attr_reader :period, :col, :my_hash, :link, :title, :year, :country, :starting_date, :genre, :time, :rate, :producer, :actors, :period  
  
+
+  def self.create(line, list)
+    (1940..1945) === line[:year].to_i && AncientMovie.new(line, list) ||
+    (1945..1968) === line[:year].to_i && ClassicMovie.new(line, list) ||
+    (1968..2000) === line[:year].to_i && ModernMovie.new(line, list) ||
+    (2000..Time.now.strftime("%Y").to_i) === line[:year].to_i && NewMovie.new(line, list)   
+  end
+
+  
   def initialize(hash={}, collection)
     @period = self.class.to_s.chomp('Movie').downcase.to_sym
     @col = collection
@@ -28,63 +37,9 @@ class Movie
     col.include?(param) or raise ArgumentError, 'Sorry, this GENRE doesn\'t exist'
     genre.include?(param)
   end
-end
-
-
-#====================================================================================================
-class AncientMovie < Movie
-  COST = 1
 
   def show_price
-    COST
+    self.class::COST
   end
-  
-  def description 
-    "#{title} - старый фильм(#{year})"
-  end
+
 end
-#====================================================================================================
-
-class ClassicMovie < Movie
-  COST = 1.5
-
-  def initialize(hash={}, collection)
-    @col = collection
-    super
-  end
-
-  def show_price
-    COST
-  end
-  
-  def description
-    "#{title} — классический фильм, режиссёр #{man = producer}: " + 
-      col.select{|line| line[:producer] == man}.map{|line| line[:title]}.first(10).to_s
-  end
-end
-#====================================================================================================
-
-class ModernMovie < Movie
-  COST = 3
-
-  def show_price
-    COST
-  end
-  
-  def description
-    "#{title} - современное кино: #{title}"     
-  end
-end
-#====================================================================================================
-
-class NewMovie < Movie
-  COST = 5
-
-  def show_price
-    COST
-  end
-  
-  def description
-    "#{title} - новинка, вышло #{Time.now.strftime("%Y").to_i - year.to_i} лет назад!)"
-  end
-end  
