@@ -37,60 +37,52 @@ class MovieCollection
     cutted_arr = all.flat_map(&parameter).sort
     cutted_arr.each_with_object(Hash.new(0)) {|value, list| list[value] += 1 }
   end
+
+  def better_chances(list)
+    list.sort_by(&:rate).group_by{|x| x.rate}.values.map.with_index { |x, i| Array(x) * (i+1) }.flatten 
+  end
 end
 
+#====================================================================================================
 class Netflix < MovieCollection
-  @@balance = 0
-  
+
   def balance
-    @@balance    
+    @coins
   end
 
   def pay(coins)
-    @@balance += coins
+    @coins = coins
   end
 
   def show(parameter)
-    @@balance -= filter(parameter).map(&:cost)[0]
-    @@balance >= 0 or raise ArgumentError, "Balance is empty"
+    @coins >= filter(parameter)[0].show_price or raise ArgumentError, "Need more money"
+    @coins -= filter(parameter)[0].show_price
     filter(parameter).select { |movie| 
       puts "Now showing: #{movie.title} #{Time.at(0).utc.strftime("%H:%M:%S")} - #{Time.at(movie.time*60).utc.strftime("%H:%M:%S")}" }       
-    
   end
 
-  def how_much?(title)
-    filter(title).map(&:cost)
+  def how_much?(name)
+    filter(title: name)[0].show_price
   end
 end
+#====================================================================================================
 
 class Theater < MovieCollection
 #  8:00 - 12:00 Ancient
 # 12:00 - 18:00 Comedy, Adventure
 # 18:00 - 23:00 Drama, Horror
-
-  attr_accessor :morning, :day, :evening
-
-  def initialize(file_name)
-    @morning = (Time.parse('8am').strftime("%H:%M")..Time.parse('12pm').strftime("%H:%M"))     
-    @day = (Time.parse('12pm').strftime("%H:%M")..Time.parse('18pm').strftime("%H:%M"))     
-    @evening = (Time.parse('18pm').strftime("%H:%M")..Time.parse('23pm').strftime("%H:%M"))     
-    super
-  end
-
-  def main_hash
-    { @morning => filter(period: :ancient), 
-      @day => filter(period: /classic|modern|new/i, genre: /Comedy|Advanture/), 
-      @evening => filter(period: /classic|modern|new/i, genre: /Drama|Horror/) 
-    }    
-  end
+  
+  TIMETABLE = { (Time.parse('08am').strftime("%H:%M")..Time.parse('12pm').strftime("%H:%M")) =>  {period: :ancient}, 
+                (Time.parse('12pm').strftime("%H:%M")..Time.parse('18pm').strftime("%H:%M")) =>  {period: /classic|modern|new/i, genre: /Comedy|Advanture/}, 
+                (Time.parse('18pm').strftime("%H:%M")..Time.parse('23pm').strftime("%H:%M")) =>  {period: /classic|modern|new/i, genre: /Drama|Horror/} }
 
   def show(time)
-    main_hash.select {|key, value| key === Time.parse(time).strftime("%H:%M")}.values.flatten.select{|movie| 
-      puts "Now showing: #{movie.title} - #{movie.genre}; #{movie.period}"}
+    better_chances_list = better_chances(filter(TIMETABLE.select {|key, value| key === Time.parse(time).strftime("%H:%M")}.values[0]))
+    final_result = Array(better_chances_list[rand(better_chances_list.length)]).select { |movie| 
+      puts "Now showing: #{movie.title} #{Time.at(0).utc.strftime("%H:%M:%S")} - #{Time.at(movie.time*60).utc.strftime("%H:%M:%S")}" }       
   end
    
   def when?(name)
-    main_hash.select{|key, value| value.any?{|movie| movie.title === name }}.keys
+    TIMETABLE.select{|key, value| filter(value).any?{|movie| movie.title === name }}.keys
   end
-
 end

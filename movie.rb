@@ -1,9 +1,11 @@
 require 'csv'
 
 class Movie
-  attr_accessor :col, :my_hash, :link, :title, :year, :country, :starting_date, :genre, :time, :rate, :producer, :actors, :period  
+
+  attr_reader :period, :col, :my_hash, :link, :title, :year, :country, :starting_date, :genre, :time, :rate, :producer, :actors, :period  
  
   def initialize(hash={}, collection)
+    @period = self.class.to_s.chomp('Movie').downcase.to_sym
     @col = collection
     @my_hash = hash
     @link = hash[:link]
@@ -28,48 +30,61 @@ class Movie
   end
 end
 
-class AncientMovie < Movie
-  attr_accessor :period, :description, :cost
 
-  def initialize(hash={}, collection)
-    @cost = 1
-    @period = :ancient
-    @description = "#{hash[:title]} - старый фильм(#{hash[:year]})"
-    super
+#====================================================================================================
+class AncientMovie < Movie
+  COST = 1
+
+  def show_price
+    COST
+  end
+  
+  def description 
+    "#{title} - старый фильм(#{year})"
   end
 end
+#====================================================================================================
 
 class ClassicMovie < Movie
-  attr_accessor :period, :description, :cost
+  COST = 1.5
 
   def initialize(hash={}, collection)
     @col = collection
-    @cost = 1.5
-    @period = :classic
-    @description = "#{hash[:title]} — классический фильм, режиссёр #{man = hash[:producer]}: " + 
-      col.select{|line| line[:producer] == man}.map{|line| line[:title]}.first(10).to_s
     super
   end
+
+  def show_price
+    COST
+  end
+  
+  def description
+    "#{title} — классический фильм, режиссёр #{man = producer}: " + 
+      col.select{|line| line[:producer] == man}.map{|line| line[:title]}.first(10).to_s
+  end
 end
+#====================================================================================================
 
 class ModernMovie < Movie
-  attr_accessor :period, :description, :cost
+  COST = 3
 
-  def initialize(hash={}, collection)
-    @cost = 3
-    @period = :modern
-    @description = "#{hash[:title]} - современное кино: #{hash[:actors]}"
-    super
+  def show_price
+    COST
+  end
+  
+  def description
+    "#{title} - современное кино: #{title}"     
   end
 end
+#====================================================================================================
 
 class NewMovie < Movie
-  attr_accessor :period, :description, :cost
+  COST = 5
 
-  def initialize(hash={}, collection)
-    @cost = 5
-    @period = :new
-    @description = "#{hash[:title]} - новинка, вышло #{Time.now.strftime("%Y").to_i - hash[:year].to_i} лет назад!)"
-    super
+  def show_price
+    COST
+  end
+  
+  def description
+    "#{title} - новинка, вышло #{Time.now.strftime("%Y").to_i - year.to_i} лет назад!)"
   end
 end  
