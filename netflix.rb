@@ -24,7 +24,7 @@ class Netflix < MovieCollection
     @coins -= list[0].price
     better_chances_list = better_chances(list)
     Array(better_chances_list[rand(better_chances_list.length)]).select { |movie| 
-          puts "Now showing: #{movie.title} #{Time.at(0).utc.strftime("%H:%M:%S")} - #{Time.at(movie.time*60).utc.strftime("%H:%M:%S")}" }       
+      puts "Now showing: #{movie.title} #{Time.at(0).utc.strftime("%H:%M:%S")} - #{Time.at(movie.time*60).utc.strftime("%H:%M:%S")}" }       
   end
 
   def how_much?(name)

@@ -11,7 +11,7 @@ require './new_movie'
 
 #movies = MovieCollection.new('movies.txt')
 
-oc = Netflix.new('movies.txt')
+#oc = Netflix.new('movies.txt')
 #puts oc.how_much?('The Terminator')
 
 #===== Выполнение .has_genre?(param)=====
@@ -33,8 +33,8 @@ oc = Netflix.new('movies.txt')
 #  puts e.message
 #end
 
-#oc = Theater.new('movies.txt')
+oc = Theater.new('movies.txt')
 
-puts all = oc.all[4].description
-#puts oc.show('8am')
+#puts all = oc.all[4].description
+puts oc.show('12:00')
 #puts oc.when?('Rashomon')
