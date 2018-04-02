@@ -5,7 +5,7 @@ class ClassicMovie < Movie
   COST = 1.5
   
   def description
-    "#{title} — классический фильм, режиссёр #{man = producer}: " + 
-      col.select{|line| line[:producer] == man}.map{|line| line[:title]}.first(10).to_s
+    puts "#{title} — классический фильм, режиссёр #{producer}:" 
+    col.filter(producer: producer).map(&:title).delete_if{|ti| ti == title}.first(10)
   end
 end

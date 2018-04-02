@@ -13,12 +13,12 @@ class Theater < MovieCollection
 # 12:00 - 18:00 Comedy, Adventure
 # 18:00 - 23:00 Drama, Horror
   
-  TIMETABLE = { (Time.parse('08am').strftime("%H:%M")..Time.parse('12pm').strftime("%H:%M")) =>  {period: :ancient}, 
-                (Time.parse('12pm').strftime("%H:%M")..Time.parse('18pm').strftime("%H:%M")) =>  {period: /classic|modern|new/i, genre: /Comedy|Advanture/}, 
-                (Time.parse('18pm').strftime("%H:%M")..Time.parse('23pm').strftime("%H:%M")) =>  {period: /classic|modern|new/i, genre: /Drama|Horror/} }
+  TIMETABLE = { ("08:00".."12:00") =>  {period: :ancient}, 
+                ("12:00".."18:00") =>  {period: /classic|modern|new/i, genre: /Comedy|Advanture/}, 
+                ("18:00".."23:00") =>  {period: /classic|modern|new/i, genre: /Drama|Horror/} }
 
   def show(time)
-    better_chances_list = better_chances(filter(TIMETABLE.select {|key, value| key === Time.parse(time).strftime("%H:%M")}.values[0]))
+    better_chances_list = better_chances(filter(TIMETABLE.select {|key, value| key.cover?(Time.parse(time).strftime("%H:%M"))}.values[0]))
     Array(better_chances_list[rand(better_chances_list.length)]).select { |movie| 
       puts "Now showing: #{movie.title} #{Time.at(0).utc.strftime("%H:%M:%S")} - #{Time.at(movie.time*60).utc.strftime("%H:%M:%S")}" }       
   end

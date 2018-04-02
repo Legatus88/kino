@@ -11,7 +11,16 @@ require './new_movie'
 
 #movies = MovieCollection.new('movies.txt')
 
-#oc = Netflix.new('movies.txt')
+oc = Netflix.new('movies.txt')
+#puts oc.how_much?('The Terminator')
+
+#===== Выполнение .has_genre?(param)=====
+#begin
+#puts oc.all.first.has_genre?("Dawd")
+#rescue ArgumentError => e
+#  puts e.message 
+#end
+#========================================
 
 #begin
 #oc.pay(5)
@@ -24,8 +33,8 @@ require './new_movie'
 #  puts e.message
 #end
 
-oc = Theater.new('movies.txt')
+#oc = Theater.new('movies.txt')
 
-#puts oc.how_much?('The Terminator')
+puts all = oc.all[4].description
 #puts oc.show('8am')
 #puts oc.when?('Rashomon')

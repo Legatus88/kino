@@ -3,18 +3,21 @@ require 'csv'
 class Movie
 
   attr_reader :period, :col, :my_hash, :link, :title, :year, :country, :starting_date, :genre, :time, :rate, :producer, :actors, :period  
- 
 
   def self.create(line, list)
-    (1940..1945) === line[:year].to_i && AncientMovie.new(line, list) ||
-    (1945..1968) === line[:year].to_i && ClassicMovie.new(line, list) ||
-    (1968..2000) === line[:year].to_i && ModernMovie.new(line, list) ||
-    (2000..Time.now.strftime("%Y").to_i) === line[:year].to_i && NewMovie.new(line, list)   
+    case line[:year].to_i
+    when 1940..1945
+      AncientMovie.new(line, list)
+    when 1945..1968
+      ClassicMovie.new(line, list)
+    when 1968..2000
+      ModernMovie.new(line, list)
+    when 2000..Time.now.strftime("%Y").to_i
+      NewMovie.new(line, list) 
+    end
   end
-
   
   def initialize(hash={}, collection)
-    @period = self.class.to_s.chomp('Movie').downcase.to_sym
     @col = collection
     @my_hash = hash
     @link = hash[:link]
@@ -29,16 +32,20 @@ class Movie
     @actors = hash[:actors].split(',')
   end
 
+  def period
+    self.class.to_s.chomp('Movie').downcase.to_sym
+  end
+
   def matches?(key, value)
     Array(send(key)).any? {|cell| value === cell}
   end
 
   def has_genre?(param)
-    col.include?(param) or raise ArgumentError, 'Sorry, this GENRE doesn\'t exist'
+    col.genre_list.include?(param) or raise ArgumentError, 'Sorry, this GENRE doesn\'t exist'
     genre.include?(param)
   end
 
-  def show_price
+  def price
     self.class::COST
   end
 
