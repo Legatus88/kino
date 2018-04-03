@@ -1,8 +1,17 @@
-require './netflix.rb'
-
+require './classic_movie'
 
 describe ClassicMovie do
-  let(:movie) { MovieCollection.new('movies.txt').filter(period: :classic).first }
+  let(:movie) {
+      ClassicMovie.create({ link: 'http://imdb.com/title/tt0050083/?ref_=chttp_tt_5', 
+      title: '12 Angry Men',
+      year: 1957,
+      country: 'USA',
+      starting_date: 1957-04,
+      genre: 'Crime,Drama',
+      time: '96 min',
+      rate: 8.9,
+      producer: 'Sidney Lumet',
+      actors: 'Henry Fonda,Lee J. Cobb,Martin Balsam' }, self) }
 
   describe '.description' do
     context 'when .description is called' do

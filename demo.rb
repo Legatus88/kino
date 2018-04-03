@@ -34,10 +34,11 @@ require './new_movie'
 #  puts e.message
 #end
 
-oc = Theater.new('movies.txt')
+#oc = Theater.new('movies.txt')
+#puts oc.stats(:renree)
 #puts mov = MovieCollection.new('movies.txt').filter(period: :classic).first.description
 
 #puts oc.all[4].description
 #puts all = oc.all[4].description
 #puts oc.show('01:00')
-puts oc.when?('The Terminator')
+#puts oc.when?('The Terminator')

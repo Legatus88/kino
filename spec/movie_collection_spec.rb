@@ -1,27 +1,67 @@
 require './movie_collection'
-require './movie'
 
-#describe Netflix do
-#  it "should give an arr" do 
-#  	expect(Netflix.new('movies.txt').show(title: /term/i)).to eql([])
-#  end
-#end
+describe MovieCollection do 
 
-#describe Netflix do
-#  it "should be 8" do
-#    expect(Netflix.new('movies.txt').csv_list.select{|movie| (1940..1945) === movie[:year].to_i}.length).to eq(8)
-# end
-#end
+  let (:collection) { MovieCollection.new('movies.txt') }
 
-#describe Netflix do
-#  Netflix.new('movies.txt').pay(25)
-#  it "should be 25" do
-#    expect(Netflix.new('movies.txt').balance).to eq(25)
-#  end
-#end
+  describe '.sort_by' do
+  	context 'when arguments are correct' do 
+  	  it 'returns an Array' do 		
+  	  	expect(collection.sort_by(:title).class).to equal(Array)
+  	  end
+  	end
 
-describe Theater do
-	it "should be Range" do
-		expect(Theater.new('movies.txt').when?('Fargo')).to eq(["18:00".."23:00"]) 
-	end
+  	context 'when arguments are not' do
+  	  it 'raise NoMethodError' do
+  	  	expect{ collection.sort_by(:tralala) }.to raise_error NoMethodError
+  	  end
+  	end
+  end
+
+  describe '.filter' do 
+  	
+  	context 'when arguments are correct' do
+  	  it 'returns an Array ' do
+  	  	expect(collection.filter(title: /term/i).class).to equal(Array)
+  	  end
+  	end
+  	
+  	context 'when key is not correct' do
+  	  it 'raises NoMethodError' do
+  	  	expect{ collection.filter(tralala: /term/i) }.to raise_error NoMethodError
+  	  end
+  	end 	
+  	
+  	context 'when value is not correct' do
+  	  it 'raises NameError' do
+  	  	expect{ collection.filter(title: awdawd) }.to raise_error NameError
+  	  end
+  	end
+
+  	context 'when value doesn\'t exist' do
+  	  it 'returns nothing' do
+  	  	expect(collection.filter(title: /Бригада/i)).to eq([])
+  	  end
+ 	end
+  end
+
+  describe '.stats' do
+  	context 'when key is correct' do
+      it 'returns hash' do
+  	    expect(collection.stats(:producer).class).to equal(Hash)
+  	  end
+  	end
+
+  	context 'when key is not correct' do
+  	  it 'raises NameError' do
+  	  	expect{ collection.stats(tralala)}.to raise_error NameError
+  	  end
+  	end
+
+  	context 'when key doesn\'t exist' do
+  	  it 'raises NoMethodError' do
+  	  	expect{ collection.stats(:tralala)}.to raise_error NoMethodError
+  	  end
+  	end	
+  end
 end
