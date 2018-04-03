@@ -24,6 +24,6 @@ class Theater < MovieCollection
   end
    
   def when?(name)
-    TIMETABLE.select{|key, value| filter(value).any?{|movie| movie.title === name }}.keys
+  TIMETABLE.select{|key, value| filter(value).any?{|movie| movie.title === name }}.keys
   end
 end
