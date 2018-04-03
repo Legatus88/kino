@@ -1,14 +1,15 @@
-require './ancient_movie'
 require './netflix.rb'
 
+mov = MovieCollection.new('movies.txt').filter(period: :classic).first
+
 describe '.description' do
-  it 'gives an Array of movies' do 
-    expect(MovieCollection.new('movies.txt').filter(period: :classic).first.description.length).to be <= 10
+  it 'gives ClassicMovie description' do 
+    expect(mov.description).to match /классический фильм, режиссёр/i
   end
 end
 
 describe '.price' do
-  it 'gives movie\'s cost' do
+  it 'gives ClassicMovie\'s price' do
   	expect(MovieCollection.new('movies.txt').filter(period: :classic).first.price).to be == 1.5
   end
 end

@@ -5,7 +5,6 @@ class ClassicMovie < Movie
   COST = 1.5
   
   def description
-    puts "#{title} — классический фильм, режиссёр #{producer}:" 
-    col.filter(producer: producer).map(&:title).delete_if{|ti| ti == title}.first(10)
+    "#{title} — классический фильм, режиссёр #{producer}: (ещё #{col.filter(producer: producer).length} фильмов в топе)"
   end
 end

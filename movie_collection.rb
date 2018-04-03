@@ -39,8 +39,4 @@ class MovieCollection
     cutted_arr = all.flat_map(&parameter).sort
     cutted_arr.each_with_object(Hash.new(0)) {|value, list| list[value] += 1 }
   end
-
-  def better_chances(list)
-    list.sort_by(&:rate).group_by{|x| x.rate}.values.map.with_index { |x, i| Array(x) * (i+1) }.flatten 
-  end
 end

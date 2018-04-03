@@ -18,9 +18,9 @@ class Theater < MovieCollection
                 ("18:00".."23:00") =>  {period: /classic|modern|new/i, genre: /Drama|Horror/} }
 
   def show(time)
-    better_chances_list = better_chances(filter(TIMETABLE.select {|key, value| key.cover?(Time.parse(time).strftime("%H:%M"))}.values[0]))
-    result = better_chances_list[rand(better_chances_list.length)]
-    final_sting = "Now showing: #{result.title} #{Time.at(0).utc.strftime("%H:%M:%S")} - #{Time.at(result.time*60).utc.strftime("%H:%M:%S")}"
+    list = filter(TIMETABLE.select {|key, value| key.cover?(Time.parse(time).strftime("%H:%M"))}.values[0])
+    random_movie = list.sort_by { |m| m.rate * rand }[rand(list.length)]
+    final_sting = "Now showing: #{random_movie.title} #{Time.at(0).utc.strftime("%H:%M:%S")} - #{Time.at(random_movie.time*60).utc.strftime("%H:%M:%S")}"
   end
    
   def when?(name)

@@ -12,7 +12,7 @@ class Movie
       ClassicMovie.new(line, list)
     when 1968..2000
       ModernMovie.new(line, list)
-    when 2000..Time.now.strftime("%Y").to_i
+    when 2000..Time.now.year.to_i
       NewMovie.new(line, list) 
     end
   end

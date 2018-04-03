@@ -22,9 +22,8 @@ class Netflix < MovieCollection
     list = filter(parameter)
     @coins >= list[0].price or raise ArgumentError, "Need more money"
     @coins -= list[0].price
-    better_chances_list = better_chances(list)
-    Array(better_chances_list[rand(better_chances_list.length)]).select { |movie| 
-      puts "Now showing: #{movie.title} #{Time.at(0).utc.strftime("%H:%M:%S")} - #{Time.at(movie.time*60).utc.strftime("%H:%M:%S")}" }       
+    random_movie = list.sort_by { |m| m.rate * rand }[rand(list.length)]
+    final_string = "Now showing: #{random_movie.title} #{Time.at(0).utc.strftime("%H:%M:%S")} - #{Time.at(random_movie.time*60).utc.strftime("%H:%M:%S")}"       
   end
 
   def how_much?(name)
