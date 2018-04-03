@@ -27,7 +27,7 @@ describe Theater do
     end
 
     context 'when movie is not in the timetable' do 
-      it 'gives a nil' do
+      it 'gives nothing' do
       	expect(theater.when?('The Terminator')).to eq([])
       end
     end
