@@ -23,8 +23,8 @@ oc = Netflix.new('movies.txt')
 #========================================
 
 #begin
-puts oc.pay(-5)
-puts oc.balance
+#puts oc.balance
+#oc.pay(5)
 #puts oc.balance
 #puts oc.show(title: "Pulp Fiction")
 #puts oc.balance
