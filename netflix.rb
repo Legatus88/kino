@@ -15,7 +15,10 @@ class Netflix < MovieCollection
   end
 
   def pay(coins)
-    @coins = coins
+    if coins < 0 
+      raise RuntimeError, "Wrong amount of money"
+    end
+    @coins = coins 
   end
 
   def show(parameter)
