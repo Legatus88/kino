@@ -6,7 +6,7 @@ class Movie
 
   def self.create(line, list)
     case line[:year].to_i
-    when 1940..1945
+    when 1900..1945
       AncientMovie.new(line, list)
     when 1945..1968
       ClassicMovie.new(line, list)
@@ -48,5 +48,4 @@ class Movie
   def price
     self.class::COST
   end
-
 end

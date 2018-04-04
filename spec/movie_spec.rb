@@ -19,7 +19,43 @@ describe Movie do
       producer: 'Michael Curtiz',
       actors: 'Humphrey Bogart,Ingrid Bergman,Paul Henreid' }, col)}
   
-  let(:col) { double(genre_list: double(['Comedy', 'Drama', 'Crime'])) }
+  let (:movie_classic) {
+  	  Movie.create({ link: 'http://imdb.com/title/tt0034583/?ref_=chttp_tt_32', 
+      title: 'Casablanca',
+      year: 1965,
+      country: 'USA',
+      starting_date: 1943-01-23,
+      genre: 'Drama,Romance,War',
+      time: '102 min',
+      rate: 8.6,
+      producer: 'Michael Curtiz',
+      actors: 'Humphrey Bogart,Ingrid Bergman,Paul Henreid' }, col)}
+
+  let (:movie_modern) {
+  	  Movie.create({ link: 'http://imdb.com/title/tt0034583/?ref_=chttp_tt_32', 
+      title: 'Casablanca',
+      year: 1975,
+      country: 'USA',
+      starting_date: 1943-01-23,
+      genre: 'Drama,Romance,War',
+      time: '102 min',
+      rate: 8.6,
+      producer: 'Michael Curtiz',
+      actors: 'Humphrey Bogart,Ingrid Bergman,Paul Henreid' }, col)}
+  
+  let (:movie_new) {
+  	  Movie.create({ link: 'http://imdb.com/title/tt0034583/?ref_=chttp_tt_32', 
+      title: 'Casablanca',
+      year: 2010,
+      country: 'USA',
+      starting_date: 1943-01-23,
+      genre: 'Drama,Romance,War',
+      time: '102 min',
+      rate: 8.6,
+      producer: 'Michael Curtiz',
+      actors: 'Humphrey Bogart,Ingrid Bergman,Paul Henreid' }, col)}
+
+  let(:col) { double(genre_list: ['Comedy', 'Drama', 'Crime']) }
 
 #======================================================================= 
   describe '.title' do
@@ -112,11 +148,27 @@ describe Movie do
 
   describe '.self.create' do
   	context 'when movie is ancient' do
-      it 'creates an AncientClass' do
+      it 'creates an AncientMovie' do
       	expect(movie.class).to eq(AncientMovie)
       end
   	end
-  	
+
+  	context 'when movie is classic' do
+      it 'creates an ClassicMovie' do
+      	expect(movie_classic.class).to eq(ClassicMovie)
+      end
+  	end
+
+  	context 'when movie is modern' do
+      it 'creates an ModernMovie' do
+      	expect(movie_modern.class).to eq(ModernMovie)
+      end
+  	end
+
+  	context 'when movie is new' do
+      it 'creates an NewMovie' do
+      	expect(movie_new.class).to eq(NewMovie)
+      end
+  	end
   end
- 
 end
