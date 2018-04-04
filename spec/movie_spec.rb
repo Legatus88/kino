@@ -1,5 +1,8 @@
 require './movie'
 require './ancient_movie'
+require './classic_movie'
+require './modern_movie'
+require './new_movie'
 
 
 describe Movie do
@@ -14,8 +17,10 @@ describe Movie do
       time: '102 min',
       rate: 8.6,
       producer: 'Michael Curtiz',
-      actors: 'Humphrey Bogart,Ingrid Bergman,Paul Henreid' }, self)}
+      actors: 'Humphrey Bogart,Ingrid Bergman,Paul Henreid' }, col)}
   
+  let(:col) { double(genre_list: double(['Comedy', 'Drama', 'Crime'])) }
+
 #======================================================================= 
   describe '.title' do
     context 'when value default' do
@@ -105,5 +110,13 @@ describe Movie do
   	end
   end
 
+  describe '.self.create' do
+  	context 'when movie is ancient' do
+      it 'creates an AncientClass' do
+      	expect(movie.class).to eq(AncientMovie)
+      end
+  	end
+  	
+  end
  
 end
