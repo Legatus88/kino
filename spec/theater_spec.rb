@@ -12,6 +12,22 @@ describe Theater do
         theater.show('08:00')
         expect(theater).to have_received(:filter).with(period: :ancient)
       end
+    end
+
+    context 'when gets day time' do
+      it 'gives period: :ancient filter' do
+        allow(theater).to receive(:filter).and_return([AncientMovie.new({title: "Citizen Kane", rate: 8.4, year: 1965, genre: 'Comedy', period: :ancient, actors: 'Orson Welles,Joseph Cotten,Dorothy Comingore'}, 'something')])
+        theater.show('13:00')
+        expect(theater).to have_received(:filter).with(period: /classic|modern|new/i, genre: /Comedy|Advanture/)
+      end
+    end
+
+    context 'when gets evening time' do
+      it 'gives period: :ancient filter' do
+        allow(theater).to receive(:filter).and_return([AncientMovie.new({title: "Citizen Kane", rate: 8.4, year: 1990, genre: 'Drama,Mystery', period: :ancient, actors: 'Orson Welles,Joseph Cotten,Dorothy Comingore'}, 'something')])
+        theater.show('19:00')
+        expect(theater).to have_received(:filter).with(period: /classic|modern|new/i, genre: /Drama|Horror/)
+      end
     end 
 
     context 'when gets morning time' do
