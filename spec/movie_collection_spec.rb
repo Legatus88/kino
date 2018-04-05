@@ -11,7 +11,7 @@ describe MovieCollection do
   	  end
   	end
 
-  	context 'when arguments are not' do
+  	context 'when arguments are not correct' do
   	  it 'raise NoMethodError' do
   	  	expect{ collection.sort_by(:tralala) }.to raise_error NoMethodError
   	  end
