@@ -1,8 +1,9 @@
 require './classic_movie'
+require 'rspec/its'
 
 describe ClassicMovie do
-  let(:movie) {
-     ClassicMovie.create({ link: 'http://imdb.com/title/tt0050083/?ref_=chttp_tt_5', 
+  subject {
+     ClassicMovie.new({ link: 'http://imdb.com/title/tt0050083/?ref_=chttp_tt_5', 
       title: '12 Angry Men',
       year: 1957,
       country: 'USA',
@@ -15,19 +16,6 @@ describe ClassicMovie do
 
   let(:collection) { double(filter: double(length: 8)) }
 
-  describe '.description' do
-    context 'when .description is called' do
-      it 'gives ClassicMovie description' do
-        expect(movie.description.to_s).to match /классический фильм, режиссёр/i
-      end
-    end
-  end
-
-  describe '.price' do
-    context 'when price is called' do 
-      it 'gives ClassicMovie\'s price' do
-  	    expect(movie.price).to eq(1.5)
-      end
-  	end	
-  end
+  its(:description) { is_expected.to eq('12 Angry Men — классический фильм, режиссёр Sidney Lumet: (ещё 8 фильмов в топе)') }
+  its(:price) { is_expected.to eq(1.5) }
 end

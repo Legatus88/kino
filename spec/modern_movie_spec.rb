@@ -1,7 +1,8 @@
 require './modern_movie'
+require 'rspec/its'
 
 describe ModernMovie do
-  let(:movie) { ModernMovie.create({ link: 'http://imdb.com/title/tt0110912/?ref_=chttp_tt_7', 
+  subject { ModernMovie.new({ link: 'http://imdb.com/title/tt0110912/?ref_=chttp_tt_7', 
       title: 'Pulp Fiction',
       year: 1994,
       country: 'USA',
@@ -11,20 +12,8 @@ describe ModernMovie do
       rate: 8.9,
       producer: 'Quentin Tarantino',
       actors: 'John Travolta,Uma Thurman,Samuel L. Jackson' }, self) }
+  
+  its(:description){ is_expected.to eq('Pulp Fiction - современное кино: ["John Travolta", "Uma Thurman", "Samuel L. Jackson"]') }
+  its(:price){ is_expected.to eq(3) }
 
-  describe '.description' do
-    context 'when .description is called' do
-      it 'gives ModernMovie description' do 
-        expect(movie.description).to match /современное кино/i
-      end
-    end
-  end
-
-  describe '.price' do
-    context 'when price is called' do 
-      it 'gives ModernMovie\'s price' do
-  	    expect(movie.price).to eq(3)
-      end
-  	end	
-  end
 end

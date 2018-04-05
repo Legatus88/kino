@@ -1,7 +1,8 @@
 require './new_movie'
+require 'rspec/its'
 
 describe NewMovie do
-  let(:movie) { NewMovie.create({ link: 'http://imdb.com/title/tt0167260/?ref_=chttp_tt_9', 
+  subject { NewMovie.new({ link: 'http://imdb.com/title/tt0167260/?ref_=chttp_tt_9', 
       title: 'The Lord of the Rings: The Return of the King',
       year: 2003,
       country: 'USA',
@@ -11,20 +12,7 @@ describe NewMovie do
       rate: 8.9,
       producer: 'Peter Jackson',
       actors: 'Elijah Wood,Viggo Mortensen,Ian McKellen' }, self) }
-
-  describe '.description' do
-    context 'when .description is called' do
-      it 'gives NewMovie description' do 
-        expect(movie.description).to match /новинка/i
-      end
-    end
-  end
-
-  describe '.price' do
-    context 'when price is called' do 
-      it 'gives NewMovie\'s price' do
-  	    expect(movie.price).to eq(5)
-      end
-  	end	
-  end
+  
+  its(:description) { is_expected.to eq('The Lord of the Rings: The Return of the King - новинка, вышло 15 лет назад!') }
+  its(:price) { is_expected.to eq(5) }
 end

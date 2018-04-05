@@ -43,4 +43,4 @@ oc = Theater.new('movies.txt')
 #puts all = oc.all[4].description
 #puts oc.show('08:00')
 
-puts oc.show('08:00').class
+puts oc.filter(period: :modern).first.description
