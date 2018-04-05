@@ -23,13 +23,13 @@ class Netflix < MovieCollection
 
   def show(parameter)
     list = filter(parameter)
-    @coins >= list[0].price or raise ArgumentError, "Need more money"
-    @coins -= list[0].price
-    random_movie = list.sort_by { |m| m.rate * rand }[rand(list.length)]
-    final_string = "Now showing: #{random_movie.title} #{Time.at(0).utc.strftime("%H:%M:%S")} - #{Time.at(random_movie.time*60).utc.strftime("%H:%M:%S")}"       
+    @coins >= list.first.price or raise ArgumentError, "Need more money"
+    @coins -= list.first.price
+    random_movie = list.sort_by { |m| m.rate * rand }.last
+    print "Now showing: #{random_movie.title} #{Time.at(0).utc.strftime("%H:%M:%S")} - #{Time.at(random_movie.time*60).utc.strftime("%H:%M:%S")}"       
   end
 
   def how_much?(name)
-    filter(title: name)[0].price
+    filter(title: name).first.price
   end
 end

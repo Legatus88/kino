@@ -3,14 +3,23 @@ require './theater'
 describe Theater do
   
   let(:theater) { Theater.new('movies.txt') }  
- 
+   
   describe '.show' do
-
-    context 'when user gives a time' do
-      it 'gives a random ancient movie' do
-        expect(theater.show('08:00')).to match /Casablanca|Dictator|Kane|Indemnity|Rebecca|Maltese|Wrath|Laura/i
+    
+    context 'when gets morning time' do
+      it 'gives period: :ancient filter' do
+        allow(theater).to receive(:filter).and_return([AncientMovie.new({title: "Citizen Kane", rate: 8.4, year: 1940, genre: 'Drama,Mystery', period: :ancient, actors: 'Orson Welles,Joseph Cotten,Dorothy Comingore'}, 'something')])
+        theater.show('08:00')
+        expect(theater).to have_received(:filter).with(period: :ancient)
       end
     end 
+
+    context 'when gets morning time' do
+      it 'prints a correct string' do
+        allow(theater).to receive(:filter).and_return([AncientMovie.new({title: "Citizen Kane", rate: 8.4, year: 1940, genre: 'Drama,Mystery', period: :ancient, actors: 'Orson Welles,Joseph Cotten,Dorothy Comingore'}, 'something')])
+        expect{ theater.show('08:00') }.to output('Now showing: Citizen Kane 00:00:00 - 00:00:00').to_stdout
+      end
+    end
 
     context 'when the time is wrong' do
       it 'raise NoMethodError' do

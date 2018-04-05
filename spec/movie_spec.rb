@@ -57,49 +57,6 @@ describe Movie do
 
   let(:col) { double(genre_list: ['Comedy', 'Drama', 'Crime']) }
 
-#======================================================================= 
-  describe '.title' do
-    context 'when value default' do
-      it 'returns a string' do
-      	expect(movie.title.class).to equal(String)
-      end
-    end
-  end
- 
-  describe '.year' do
-    context 'when value converted to integer' do
-      it 'returns an Integer' do
-      	expect(movie.year.class).to equal(Fixnum)
-      end
-    end
-  end
-  
-  describe '.genre' do
-    context 'when value splitted' do
-      it 'returns an Array' do
-      	expect(movie.genre.class).to equal(Array)
-      end
-    end
-  end
-
-  describe '.rate' do
-    context 'when value floated' do
-      it 'returns a Float' do
-      	expect(movie.rate.class).to equal(Float)
-      end
-    end
-  end	
-
-  describe '.period' do
-    context 'when value is symboled' do
-      it 'returns a Symbol' do
-      	expect(movie.period.class).to equal(Symbol)
-      end
-    end
-  end
-#======================================================================= 
-
-
   describe '.has_genre?' do
     context 'when movie has this genre' do
       it 'returns true' do
