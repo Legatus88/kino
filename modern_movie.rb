@@ -5,6 +5,6 @@ class ModernMovie < Movie
   COST = 3
   
   def description
-    "#{title} - современное кино: #{actors}"     
+    "#{title} - современное кино: #{actors.join(', ')}"     
   end
 end

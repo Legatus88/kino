@@ -13,7 +13,7 @@ describe ModernMovie do
       producer: 'Quentin Tarantino',
       actors: 'John Travolta,Uma Thurman,Samuel L. Jackson' }, self) }
   
-  its(:description){ is_expected.to eq('Pulp Fiction - современное кино: ["John Travolta", "Uma Thurman", "Samuel L. Jackson"]') }
+  its(:description){ is_expected.to eq('Pulp Fiction - современное кино: John Travolta, Uma Thurman, Samuel L. Jackson') }
   its(:price){ is_expected.to eq(3) }
 
 end
