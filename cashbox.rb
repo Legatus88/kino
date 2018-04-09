@@ -10,4 +10,18 @@ module Cashbox
     @money.format
   end
 
+  def take(who)
+    if who == "Bank"
+      @money = 0 
+      print "Проведена инкассация"
+    else
+      call_police
+      puts
+      raise ArgumentError, "CALLING POLICE"
+    end  
+  end
+
+  def call_police 
+    print "Police is coming"
+  end
 end

@@ -50,19 +50,4 @@ class MovieCollection
     cutted_arr = all.flat_map(&parameter).sort
     cutted_arr.each_with_object(Hash.new(0)) {|value, list| list[value] += 1 }
   end
-
-  def take(who)
-    if who == "Bank"
-      @@all_coins = 0 
-      print "Проведена инкассация"
-    else
-      call_police
-      puts
-      raise ArgumentError, "CALLING POLICE"
-    end  
-  end
-
-  def call_police 
-    print "Police is coming"
-  end
 end
