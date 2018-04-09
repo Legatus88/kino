@@ -1,4 +1,5 @@
 require 'csv'
+require 'money'
 
 class Movie
 

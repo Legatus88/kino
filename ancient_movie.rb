@@ -2,7 +2,7 @@ require 'csv'
 require './movie'
 
 class AncientMovie < Movie
-  COST = 1
+  COST = Money.new(100, "USD")
   
   def description 
     "#{title} - старый фильм(#{year})"

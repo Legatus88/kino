@@ -1,16 +1,8 @@
-require 'csv'
-require './movie'
-require 'time'
-require 'date'
-require './ancient_movie'
-require './classic_movie'
-require './modern_movie'
-require './new_movie'
 require './movie_collection'
 
 class Netflix < MovieCollection
-  include Cashbox
-
+  extend Cashbox
+  
   def balance
     @coins.format
   end

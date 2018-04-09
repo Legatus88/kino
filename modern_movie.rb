@@ -2,7 +2,7 @@ require 'csv'
 require './movie'
 
 class ModernMovie < Movie
-  COST = 3
+  COST = Money.new(300, "USD")
   
   def description
     "#{title} - современное кино: #{actors.join(', ')}"     

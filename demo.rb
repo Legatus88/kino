@@ -27,7 +27,16 @@ require './new_movie'
 #end
 #========================================
 
-Money.new(100, "USD").format(:symbol => false)
+oc = Theater.new("movies.txt")
+puts oc.when?("Pulp Fiction")
+#puts oc.cash
+
+#puts oc.cash
+#puts oc.money
+#oc.pay(20)
+#puts oc.balance
+#oc.take("awdawd")
+
 #m = Money.new('123', :gbp) # => #<Money fractional:123 currency:GBP>
 #m.format( symbol: m.currency.to_s + ' ') # => "GBP 1.23"
 

@@ -7,6 +7,9 @@ require './classic_movie'
 require './modern_movie'
 require './new_movie'
 require 'money'
+require './cashbox'
+
+I18n.enforce_available_locales = false
 
 class MovieCollection
   include Enumerable
@@ -19,7 +22,6 @@ class MovieCollection
     @genre_list = csv_list.flat_map{|row| row[:genre].split(',')}.uniq
     @full_list = csv_list.map{|line| Movie.create(line, self)}.delete_if {|cell| cell == nil}
     @coins = Money.new(0, "USD")
-    @all_coins = Money.new(0, "USD")
   end  
 
 # 7.1.
@@ -48,17 +50,10 @@ class MovieCollection
     cutted_arr = all.flat_map(&parameter).sort
     cutted_arr.each_with_object(Hash.new(0)) {|value, list| list[value] += 1 }
   end
-end
 
-module Cashbox
-  
-  def cash 
-    @all_coins.format  
-  end
-  
   def take(who)
     if who == "Bank"
-      @all_coins = 0 
+      @@all_coins = 0 
       print "Проведена инкассация"
     else
       call_police
@@ -70,21 +65,4 @@ module Cashbox
   def call_police 
     print "Police is coming"
   end
-
-  def buy_ticket(movie)
-    time = self.when?(movie)
-    case time
-    when ["08:00".."12:00"]
-      @all_coins += Money.new(300, "USD")
-    when ["12:00".."18:00"]
-      @all_coins += Money.new(500, "USD")
-    when ["18:00".."23:00"]
-      @all_coins += Money.new(1000, "USD")
-    when []
-      puts "Такого фильма в прокате нет"
-      raise ArgumentError
-    end
-    puts "Вы купили билет на #{movie}"
-  end
-
 end
