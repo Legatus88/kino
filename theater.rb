@@ -1,9 +1,7 @@
 require './movie_collection'
 
 class Theater < MovieCollection
-#  8:00 - 12:00 Ancient
-# 12:00 - 18:00 Comedy, Adventure
-# 18:00 - 23:00 Drama, Horror
+  
   include Cashbox
 
   TIMETABLE = { ("08:00".."12:00") =>  {period: :ancient}, 
@@ -15,7 +13,8 @@ class Theater < MovieCollection
     random_movie = list.sort_by { |m| m.rate * rand }.last
     print "Now showing: #{random_movie.title} #{Time.at(0).utc.strftime("%H:%M:%S")} - #{Time.at(random_movie.time*60).utc.strftime("%H:%M:%S")}"
   end
-   
+
+  
   def when?(name)
     TIMETABLE.select{|key, value| filter(value).any?{|movie| movie.title == name }}.keys
   end
@@ -23,11 +22,11 @@ class Theater < MovieCollection
   def buy_ticket(movie)
     case when?(movie)
     when ["08:00".."12:00"]
-      @money += Money.new(300, "USD")
+      add_money(300)
     when ["12:00".."18:00"]
-      @money += Money.new(500, "USD")
+      add_money(500)
     when ["18:00".."23:00"]
-      @money += Money.new(1000, "USD")
+      add_money(1000)
     when []
       raise ArgumentError, "Такого фильма в прокате нет"
     end

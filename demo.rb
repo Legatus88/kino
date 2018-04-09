@@ -27,14 +27,13 @@ require './new_movie'
 #end
 #========================================
 
-oc = Theater.new("movies.txt")
-puts oc.when?("Pulp Fiction")
-#puts oc.cash
+oc = Netflix.new("movies.txt")
 
 #puts oc.cash
 #puts oc.money
-#oc.pay(20)
-#puts oc.balance
+oc.pay(20)
+puts oc.balance
+puts Netflix.cash
 #oc.take("awdawd")
 
 #m = Money.new('123', :gbp) # => #<Money fractional:123 currency:GBP>
@@ -44,10 +43,14 @@ puts oc.when?("Pulp Fiction")
 #puts oc.balance
 #oc.pay(5)
 #puts oc.balance
-#puts oc.show(title: "Pulp Fiction")
+puts oc.show(title: "Pulp Fiction")
 #puts oc.balance
-#puts oc.show(title: "The Terminator")
-#puts oc.balance
+puts oc.show(title: "The Terminator")
+puts oc.balance
+puts Netflix.cash
+oc.pay(15)
+
+puts Netflix.cash
 #rescue ArgumentError => e
 #  puts e.message
 #end

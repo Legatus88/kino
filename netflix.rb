@@ -12,7 +12,7 @@ class Netflix < MovieCollection
       raise RuntimeError, "Wrong amount of money"
     end
     @coins += Money.new(coins*100, "USD")
-    @all_coins += Money.new(coins*100, "USD") 
+    Netflix.add_money(coins*100) 
   end
 
   def show(parameter)

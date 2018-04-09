@@ -2,8 +2,12 @@ require 'money'
 
 module Cashbox
   
-  def initialize(money)
-    @money = Money.new(0, "USD") 
+  def add_money(amount)
+  	if @money == nil
+  	  @money = Money.new(0, "USD") 
+  	end
+
+  	@money += Money.new(amount, "USD")
   end
 
   def cash
@@ -12,7 +16,7 @@ module Cashbox
 
   def take(who)
     if who == "Bank"
-      @money = 0 
+      @money = Money.new(0, "USD") 
       print "Проведена инкассация"
     else
       call_police
