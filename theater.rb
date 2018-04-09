@@ -12,7 +12,7 @@ class Theater < MovieCollection
 #  8:00 - 12:00 Ancient
 # 12:00 - 18:00 Comedy, Adventure
 # 18:00 - 23:00 Drama, Horror
-  
+  include Cashbox
   TIMETABLE = { ("08:00".."12:00") =>  {period: :ancient}, 
                 ("12:00".."18:00") =>  {period: /classic|modern|new/i, genre: /Comedy|Advanture/}, 
                 ("18:00".."23:00") =>  {period: /classic|modern|new/i, genre: /Drama|Horror/} }

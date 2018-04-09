@@ -9,16 +9,18 @@ require './new_movie'
 require './movie_collection'
 
 class Netflix < MovieCollection
+  include Cashbox
 
   def balance
-    @coins
+    @coins.format
   end
 
   def pay(coins)
     if coins < 0 
       raise RuntimeError, "Wrong amount of money"
     end
-    @coins = coins 
+    @coins += Money.new(coins*100, "USD")
+    @all_coins += Money.new(coins*100, "USD") 
   end
 
   def show(parameter)

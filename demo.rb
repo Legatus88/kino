@@ -12,6 +12,11 @@ require './new_movie'
 #movies = MovieCollection.new('movies.txt')
 
 #oc = Netflix.new('movies.txt')
+#oc.buy_ticket("Citizen Kane")
+#puts oc.cash
+#oc.buy_ticket("The Terminator")
+
+
 #puts oc.how_much?('The Terminator')
 
 #===== Выполнение .has_genre?(param)=====
@@ -21,6 +26,10 @@ require './new_movie'
 #  puts e.message 
 #end
 #========================================
+
+Money.new(100, "USD").format(:symbol => false)
+#m = Money.new('123', :gbp) # => #<Money fractional:123 currency:GBP>
+#m.format( symbol: m.currency.to_s + ' ') # => "GBP 1.23"
 
 #begin
 #puts oc.balance
@@ -35,7 +44,7 @@ require './new_movie'
 #end
 #puts oc.genre_list.to_s
 
-oc = Theater.new('movies.txt')
+#oc = Theater.new('movies.txt')
 #puts oc.stats(:renree)
 #puts mov = MovieCollection.new('movies.txt').filter(period: :classic).first.description
 
@@ -43,4 +52,4 @@ oc = Theater.new('movies.txt')
 #puts all = oc.all[4].description
 #puts oc.show('08:00')
 
-puts oc.filter(period: :modern).first.description
+#puts oc.filter(period: :modern).first.description
