@@ -28,7 +28,7 @@ require './new_movie'
 #========================================
 
 oc = Theater.new("movies.txt")
-oc.take(awd)
+oc.buy_ticket("awd")
 #puts oc.when?("Citizen Kane")
 #oc.buy_ticket("Citizen Kane")
 

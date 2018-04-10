@@ -57,4 +57,41 @@ describe Theater do
       end
     end
   end
+
+  describe '.buy_ticket' do
+    context 'when name is incorrect' do
+      it 'raises NameError' do
+        expect{ theater.buy_ticket(awd) }.to raise_error NameError
+      end
+    end
+
+    context 'when name movie is shown in morning time' do
+      it 'adds gives to cash 3' do
+        theater.buy_ticket('Citizen Kane')
+        expect(theater.cash.to_i).to eq(3)
+      end
+    end
+
+    context 'when name movie is shown in day time' do
+      it 'adds gives to cash 3' do
+        theater.buy_ticket('Back to the Future')
+        expect(theater.cash.to_i).to eq(5)
+      end
+    end
+
+
+    context 'when name movie is shown in evening time' do
+      it 'adds gives to cash 3' do
+        theater.buy_ticket('Pulp Fiction')
+        expect(theater.cash.to_i).to eq(10)
+      end
+    end
+
+
+    context 'when movie is not in the timetable' do
+      it 'raises error' do
+        expect{ theater.buy_ticket('awd') }.to raise_error NameError
+      end
+    end    
+  end
 end

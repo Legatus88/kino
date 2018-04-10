@@ -24,6 +24,10 @@ class Theater < MovieCollection
   end
 
   def buy_ticket(movie)
+    if filter(title: movie).length == 0
+      raise NameError, "Такого фильма нет в прокате"
+    end
+    
     add_money(TICKETS_PRICE.select{|key, value| key == when?(movie).first }.values.first * 100)     
   end
 end
