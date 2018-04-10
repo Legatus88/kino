@@ -8,6 +8,10 @@ class Theater < MovieCollection
                 ("12:00".."18:00") =>  {period: /classic|modern|new/i, genre: /Comedy|Advanture/}, 
                 ("18:00".."23:00") =>  {period: /classic|modern|new/i, genre: /Drama|Horror/} }
 
+  TICKETS_PRICE = { ("08:00".."12:00") =>  3, 
+                    ("12:00".."18:00") =>  5, 
+                    ("18:00".."23:00") =>  10 }
+
   def show(time)
     list = filter(TIMETABLE.select {|key, value| key.cover?(Time.parse(time).strftime("%H:%M"))}.values.first)
     random_movie = list.sort_by { |m| m.rate * rand }.last
@@ -20,16 +24,6 @@ class Theater < MovieCollection
   end
 
   def buy_ticket(movie)
-    case when?(movie)
-    when ["08:00".."12:00"]
-      add_money(300)
-    when ["12:00".."18:00"]
-      add_money(500)
-    when ["18:00".."23:00"]
-      add_money(1000)
-    when []
-      raise ArgumentError, "Такого фильма в прокате нет"
-    end
-    puts "Вы купили билет на #{movie}"
+    add_money(TICKETS_PRICE.select{|key, value| key == when?(movie).first }.values.first * 100)     
   end
 end

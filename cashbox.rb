@@ -2,15 +2,22 @@ require 'money'
 
 module Cashbox
   
-  def add_money(amount)
-  	if @money == nil
-  	  @money = Money.new(0, "USD") 
-  	end
+  def init
+  	@money ||= Money.new(0, "USD")
+  end
 
+  def add_money(amount)
+    init
   	@money += Money.new(amount, "USD")
   end
 
   def cash
+  	init
+    @money
+  end
+
+  def format_cash
+  	init
     @money.format
   end
 
