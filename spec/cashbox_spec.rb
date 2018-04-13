@@ -22,24 +22,17 @@ describe Cashbox do
 
   describe '.take' do
     before { cashbox.add_money(200) }
+
     context 'when it\'s not a Bank' do
       it 'raises error' do
-     	expect{ cashbox.take("Not a Bank") }.to raise_error ArgumentError, 'CALLING POLICE'
-      	expect(cashbox.cash.to_i).to eq(2)
+     	expect{ cashbox.take("Not a Bank") }.to raise_error(ArgumentError, 'CALLING POLICE') and not change(cashbox.cash)
       end
     end
 
     context 'when it\'s a Bank' do
       it 'make cashbox empty' do
-      	expect{ cashbox.take("Bank") }.to output('Проведена инкассация').to_stdout
-      	expect(cashbox.cash).to eq(0)
+      	expect{ cashbox.take("Bank") }.to output('Проведена инкассация').to_stdout and change { cashbox.cash }.to(0)
       end
     end
-  	
-  	context 'when taker\'s name is incorrect' do
-  	  it 'raises error' do 
-  	  	expect{ cashbox.take(awd) }.to raise_error NameError
-  	  end
-  	end
   end
 end
