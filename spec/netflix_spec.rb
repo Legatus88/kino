@@ -19,24 +19,39 @@ describe Netflix do
   end
 
   describe '.define_filter' do
-    context 'when from: nil' do
-      it 'returns block' do
-        expect{ netflix.define_filter(:f1) { print 'block' }.call }.to output('block').to_stdout
-      end
+    before { netflix.pay(300) }
+
+    context 'when only block is given' do
+      subject{ -> {netflix.show { |movie| movie.title.include?('Inception') && movie.genre.include?('Action') && movie.year == 2010}}}
+      it { is_expected.to output('Now showing: Inception 00:00:00 - 02:28:00').to_stdout }
     end
+
+    context 'when block and argument are given' do
+      subject{ -> {netflix.show(title: /the maltese/i) { |movie| !movie.title.include?('Citizen Kane') && !movie.genre.include?('Action') && movie.year > 1935}}}
+      it { is_expected.to output('Now showing: The Maltese Falcon 00:00:00 - 01:40:00').to_stdout }
+    end
+
+    context 'when only argument is given' do
+      subject{ -> {netflix.show(title: /the maltese/i)} }
+      it { is_expected.to output('Now showing: The Maltese Falcon 00:00:00 - 01:40:00').to_stdout }
+    end
+
+    context 'when filter defined' do
+      before { netflix.define_filter(:f1) { |movie| !movie.title.include?('Citizen Kane') && !movie.genre.include?('Action') && movie.year == 1941} }
+      subject{ -> {netflix.show(f1: true)} }
+      it { is_expected.to output('Now showing: The Maltese Falcon 00:00:00 - 01:40:00').to_stdout }     
+    end
+
+    context 'when filter defined' do
+      before { netflix.define_filter(:f1) { |movie, year| !movie.title.include?('Citizen Kane') && !movie.genre.include?('Action') && movie.year == year} 
+               netflix.define_filter(:new_f1, from: :f1, arg: 1941) }
+      subject{ -> {netflix.show(new_f1: true, genre: 'Drama')} }
+      it { is_expected.to output('Now showing: The Maltese Falcon 00:00:00 - 01:40:00').to_stdout }     
+    end    
 
     context 'when from is incorrect' do
       it 'raise ArgumentError' do
         expect{ netflix.define_filter(:new_filter, from: :aaaaaaaaa, arg: 2009) }.to raise_error ArgumentError, 'Такого фильтра не существует'
-      end
-    end
-
-    context 'when many filters are given and one of them is used' do
-      it 'prints b' do
-        netflix.define_filter(:f1) { print 'a' }
-        netflix.define_filter(:f2) { print 'b' }
-        netflix.define_filter(:f3) { print 'c' }
-        expect { netflix.define_filter(:f4, from: :f2).call('smt') }.to output('b').to_stdout
       end
     end
   end
