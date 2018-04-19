@@ -27,6 +27,11 @@ oc = Netflix.new('movies.txt')
 #end
 #========================================
 
+#@hash[name] = block if from.nil?
+#raise ArgumentError, "Такого фильтра не существует" if @hash[from].nil?
+#@hash[name] = ->(movie) { @hash[from].call(movie, arg) }
+
+
 #oc = Theater.new("movies.txt")
 #oc.buy_ticket("Citizen Kane")
 #puts oc.when?("Citizen Kane")
@@ -74,6 +79,13 @@ oc = Netflix.new('movies.txt')
 #puts all = oc.all[4].description
 #puts oc.show('08:00')
 
+
 #puts oc.filter(period: :modern).first.description
 
-puts oc.show
+oc.define_filter(:new_sci_fi) { |movie, year| movie.title.include?('Inception') && movie.genre.include?('Action') && movie.year == year }
+oc.define_filter(:f1) { |movie, year| !movie.title.include?('Citizen Kane') && movie.genre.include?('Drama') && movie.year == year }
+oc.define_filter(:f2) { |movie, year| !movie.title.include?('Terminator') && movie.genre.include?('Action') && movie.year > year }
+
+oc.define_filter(:newest_sci_fi, from: :new_sci_fi, arg: 2010)
+oc.pay(300)
+puts oc.show(title: /the mal/i){ |movie| !movie.title.include?('Citizen Kane') && !movie.genre.include?('Action') && movie.year == 1941}#.map(&:title) #&& movie.genre.include?('Action') && movie.year == 2010}
