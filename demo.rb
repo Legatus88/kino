@@ -11,7 +11,7 @@ require './new_movie'
 
 #movies = MovieCollection.new('movies.txt')
 
-#oc = Netflix.new('movies.txt')
+oc = Netflix.new('movies.txt')
 #oc.buy_ticket("Citizen Kane")
 #puts oc.cash
 #oc.buy_ticket("The Terminator")
@@ -27,8 +27,8 @@ require './new_movie'
 #end
 #========================================
 
-oc = Theater.new("movies.txt")
-oc.buy_ticket("Citizen Kane")
+#oc = Theater.new("movies.txt")
+#oc.buy_ticket("Citizen Kane")
 #puts oc.when?("Citizen Kane")
 #oc.buy_ticket("Citizen Kane")
 
@@ -76,4 +76,4 @@ oc.buy_ticket("Citizen Kane")
 
 #puts oc.filter(period: :modern).first.description
 
-
+puts oc.show
