@@ -1,4 +1,6 @@
 require './movie_collection'
+require './genre_selection'
+require './country_selection'
 
 class Netflix < MovieCollection
   extend Cashbox
@@ -49,5 +51,13 @@ class Netflix < MovieCollection
   def how_much?(name)
     raise ArgumentError, 'Movie not found' if filter(title: name).empty?
     filter(title: name).first.price
+  end
+
+  def by_genre
+    GenreSelection.new(@full_list)
+  end
+
+  def by_country
+    CountrySelection.new(@full_list)
   end
 end

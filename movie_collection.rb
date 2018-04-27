@@ -36,7 +36,7 @@ class MovieCollection
 
 # Выдать сортированный список фильмов, например movies.sort_by(:date) — возвращает массив фильмов, отсортированных по дате выхода (и так для любого поля);
   def sort_by(parameter)
-  	all.sort_by(&parameter)
+    all.sort_by(&parameter)
   end
 
 # выдать фильтрованный список фильмов — по некоторым полям, вроде жанра и страны, например movies.filter(genre: 'Comedy') — возвращает массив фильмов с жанром «Comedy»;
