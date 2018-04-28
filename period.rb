@@ -29,8 +29,8 @@ class Period
   end
 
   def title val
-    @period_title = {title: val}
-    @att_arr << period_title
+    @period_filters = {title: val}
+    @att_arr << @period_filters
   end
 
   attr :period_title

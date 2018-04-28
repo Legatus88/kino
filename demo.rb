@@ -132,5 +132,10 @@ theater =
   end
 
 #puts theater.halls.map{|hall| "#{hall.color}; #{hall.title}"}
-#puts theater.show('13:00').map(&:title)
-puts theater.all.first.col
+#puts theater.show('21:00').map(&:country)
+#puts theater.buy_ticket("The Terminator")
+
+puts theater.filter(year: 1941..1950).select{|movie| movie.country != 'USA'}
+
+#puts theater.filter(year: 1941..1960, exclude_country: 'USA').map(&:country) 
+
