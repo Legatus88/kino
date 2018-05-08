@@ -95,6 +95,55 @@ require 'virtus'
 
 #puts oc.by_country.canada
 
+#======================================================================================
+# Генерация расписание через ввод данных с консоли:
+# Возникли проблемы с вводом фильтров. Инфа получается в виде строк.
+# Попытка разделить строку и переназначить класс переменных успехом не увенчался,
+# т.к. помимо символов и строк на вход могут идти Range, integer, массивы и т.д.
+# Единственное решение проблемы которое было найдено очень объёмное, поэтому можно считать,
+# что решение не было найдено.
+
+#  def enter_the_timetable
+#    hall :red, title: 'Красный зал', places: 100
+#    hall :blue, title: 'Синий зал', places: 50
+#    hall :green, title: 'Зелёный зал (deluxe)', places: 12
+
+#    print 'Введите колличество периодов: '
+#    period_quantity = gets.chomp
+    
+#    print "Введите время открытия кинотеатра: "
+#    starting_time = gets.chomp
+#    starting_time_arr = starting_time.split(':')
+#    starting_time_minutes = starting_time_arr.first.to_i*60 + starting_time_arr.last.to_i
+
+#    i = 1
+#    while i <= period_quantity.to_i do
+#      print "Enter period №#{i} description: "
+#      de = gets.chomp
+#      print "Enter period №#{i} filters: "
+#      fi = gets.chomp
+#      print "Enter period №#{i} price: "
+#      pr = gets.chomp.to_i
+#      print "Enter period №#{i} halls: "
+#      ha = gets.chomp.split(', ').map(&:to_sym)
+      
+#      biggest_movie_length = filter(genre: 'Comedy').map(&:time).sort.last
+#      period_ending = starting_time_minutes + biggest_movie_length
+#      time_range = Time.at(starting_time_minutes*60).utc.strftime("%H:%M")..Time.at(period_ending*60).utc.strftime("%H:%M")
+      
+#      period time_range do
+#      description de
+#      filters fi
+#      price pr
+#      hall ha
+#      end      
+
+#      starting_time_minutes = period_ending
+#      i += 1
+#    end
+#  end
+#======================================================================================
+
 
 theater =
   Theater.new('movies.txt') do
@@ -104,7 +153,7 @@ theater =
 
     period '09:00'..'11:00' do
       description 'Утренний сеанс'
-      filters genre: 'Drama', year: 1941
+      filters genre: 'Comedy', year: 1900..1980
       price 10
       hall :red, :blue
     end
@@ -131,11 +180,23 @@ theater =
     end
   end
 
-#puts theater.halls.map{|hall| "#{hall.color}; #{hall.title}"}
-#puts theater.show('21:00').map(&:country)
-#puts theater.buy_ticket("The Terminator")
+puts theater.valid?
 
-puts theater.filter(year: 1941..1950).select{|movie| movie.country != 'USA'}
+#theater.print_timetable
+#theater.timetable_generation
+#puts theater.no_holes?
+#theater.print_timetable
+# puts f = theater.periods.first.period_hall
+#ti = ("09:00".."11:00")
+#a = 126
+#arr = ti.to_a.first.split(':')
+#minutes = arr.first.to_i*60 + arr.last.to_i + a
+#puts x = Time.at(minutes*60).utc.strftime("%H:%M")
 
-#puts theater.filter(year: 1941..1960, exclude_country: 'USA').map(&:country) 
 
+#theater.enter_the_timetable
+
+#h = gets.chomp.split(', ').map(&:to_sym)
+
+#puts theater.halls.first.color
+#puts theater.halls.select{|hall| hall.color == h[0]}

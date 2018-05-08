@@ -18,7 +18,8 @@ class CountrySelection
     end
   end
 
-# зачем это? объяснений не найдено, сказано только, что используется крайне редко
+# зачем нужен этот метод? объяснений не найдено, сказано только, что 
+# используется крайне редко, но использовать полезно
   def respond_to?(meth)
     if @movies.any?{|movie| movie.country.downcase == meth.to_s}
       true

@@ -52,6 +52,11 @@ class Movie
   end
 
   def matches?(key, value)
+    if /^exclude_/ =~ key
+      new_key = key.to_s.reverse.chomp('exclude_'.reverse).reverse.to_sym
+      return Array(send(new_key)).any?{|cell| cell != value}
+    end
+    return send(key).any?{|cell| value.include?(cell)} if value.is_a? Array
     Array(send(key)).any? {|cell| value === cell}
   end
 

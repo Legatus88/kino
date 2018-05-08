@@ -40,9 +40,5 @@ class Period
   attr :period_price
   attr :period_hall  
   attr :att_arr
-
-#  def method_missing name, *args, &block
-#    instance_variable_set("@#{name}".to_sym, args.first) #создаем переменную экземпляра и присваеваем ей значение
-#    self.class.send(:define_method, name, proc { instance_variable_get("@#{name}")}) #создаем метод для доступа к этой переменной
-#  end
+  
 end
