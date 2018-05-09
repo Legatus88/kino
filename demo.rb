@@ -212,7 +212,7 @@ theater =
 
 #puts theater.no_holes?
 #theater.generate
-
+puts theater.print_timetable
 
 #puts Time.at(theater.all.first.time*60).utc.strftime("%H:%M")
 #.cover?(Time.at(theater.all.first.time).strftime("%H:%M"))

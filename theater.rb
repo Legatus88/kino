@@ -59,8 +59,7 @@ class Theater < MovieCollection
 # печать расписания:
   def print_timetable
     @periods.each do |period| 
-      period.print_period
-      puts
+      period.to_s
     end
   end
 

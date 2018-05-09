@@ -33,12 +33,12 @@ class Period
     @att_arr << @period_filters
   end
 
-  def print_period
-    puts "Время: #{time_range}"
-    puts "#{period_description}"
-    puts "Кино: #{period_filters}"
-    puts "Цена: #{period_price}"
-    puts "Зал: #{period_hall.map(&:to_s)}"
+  def to_s
+    "Время: #{time_range}
+    #{period_description}
+    Кино: #{period_filters}
+    Цена: #{period_price}
+    Зал: #{period_hall.map(&:to_s)}\n\n"
   end
 
   def intersect?(other)
