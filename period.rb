@@ -33,6 +33,18 @@ class Period
     @att_arr << @period_filters
   end
 
+  def print_period
+    puts "Время: #{time_range}"
+    puts "#{period_description}"
+    puts "Кино: #{period_filters}"
+    puts "Цена: #{period_price}"
+    puts "Зал: #{period_hall.map(&:to_s)}"
+  end
+
+  def intersect?(other)
+    time_range.cover?(other.time_range.to_a.first) or time_range.cover?(other.time_range.to_a.last)   
+  end
+
   attr :period_title
   attr :time_range
   attr :period_description

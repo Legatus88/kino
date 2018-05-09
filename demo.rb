@@ -96,6 +96,32 @@ require 'virtus'
 #puts oc.by_country.canada
 
 #======================================================================================
+# Наброски альтернативного решения задачи генерации кинотеатра
+#      first_movie_list.each do |movie|
+#        two_movie_period = starting_time_in_minutes + movie.time
+
+#      end
+
+#      puts filtered_movie_list.length
+#      puts first_movie_list.length
+
+#      puts one_movie_period
+
+ #     if one_movie_period <= ending_time_in_minutes
+ #       puts "Название: #{random_movie.title}"
+ #       puts "Начало: #{Time.at(starting_time_in_minutes*60).utc.strftime("%H:%M")}"
+ #       puts
+ #     else
+ #       random_movie = filtered_movie_list.sample
+ #       puts "Название: #{random_movie.title}"
+ #       puts "Начало: #{Time.at(starting_time_in_minutes*60).utc.strftime("%H:%M")}"
+ #       puts
+ #     end
+
+    #end
+#======================================================================================
+
+#======================================================================================
 # Генерация расписание через ввод данных с консоли:
 # Возникли проблемы с вводом фильтров. Инфа получается в виде строк.
 # Попытка разделить строку и переназначить класс переменных успехом не увенчался,
@@ -179,9 +205,19 @@ theater =
       hall :green
     end
   end
+#puts theater.valid?
+#puts theater.all.first.genre
+#puts theater.all.first.matches?(:year, 1941)
+#puts theater.filter(theater.periods.first.period_filters).map(&:time).sort
 
-puts theater.valid?
+#puts theater.no_holes?
+#theater.generate
 
+
+#puts Time.at(theater.all.first.time*60).utc.strftime("%H:%M")
+#.cover?(Time.at(theater.all.first.time).strftime("%H:%M"))
+
+#puts theater.periods.first.intersect?('other')
 #theater.print_timetable
 #theater.timetable_generation
 #puts theater.no_holes?

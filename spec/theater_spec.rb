@@ -40,6 +40,34 @@ describe Theater do
   
   describe 'creation' do
 
+    context 'when holes in timetable are exist' do 
+      subject do 
+        Theater.new('movies.txt') do
+          hall :red, title: 'Красный зал', places: 100
+          hall :blue, title: 'Синий зал', places: 50
+          hall :green, title: 'Зелёный зал (deluxe)', places: 12
+
+          period '09:00'..'11:00' do
+          description 'Утренний сеанс'
+          filters genre: 'Comedy', year: 1900..1980
+          price 10
+          hall :red, :blue
+          end
+
+          period '12:00'..'16:00' do
+          description 'Спецпоказ'
+          title 'The Terminator'
+          price 50
+          hall :red
+          end
+        end
+      end
+
+      it 'raises RuntimeError' do
+        expect{ subject }.to raise_error RuntimeError
+      end
+    end
+
     context 'when timetable is incorrect' do
       subject do 
         Theater.new('movies.txt') do
@@ -78,6 +106,7 @@ describe Theater do
         expect{ theater.show('08:00') }.to raise_error RuntimeError
       end
     end    
+
 
 #    context 'when more then one hall found' do
 #      subject{ -> {theater.show('11:00')}}
@@ -127,5 +156,4 @@ describe Theater do
       end
     end
   end
-
 end

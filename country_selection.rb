@@ -18,9 +18,7 @@ class CountrySelection
     end
   end
 
-# зачем нужен этот метод? объяснений не найдено, сказано только, что 
-# используется крайне редко, но использовать полезно
-  def respond_to?(meth)
+  def respond_to_missing?(meth)
     if @movies.any?{|movie| movie.country.downcase == meth.to_s}
       true
     else

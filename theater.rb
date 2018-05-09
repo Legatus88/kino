@@ -3,7 +3,7 @@ require './hall'
 require './period'
 
 class Theater < MovieCollection
-  
+
   attr_reader :halls, :periods
 
   def initialize(file_name, &block)
@@ -12,6 +12,7 @@ class Theater < MovieCollection
     @periods = []
     instance_eval &block if block_given?
     raise 'Расписание не корректно' if !self.valid?
+    raise 'В расписании есть дыры' if !self.no_holes?
   end
 
   include Cashbox
@@ -52,22 +53,52 @@ class Theater < MovieCollection
 
   def valid?
     couples = periods.combination(2)
-    # даёт ли какая-нибудь пара на обеих проверках true? 
-    # при правильном расписании вернётся ответ false, поэтому ставим отрицание "!" 
-    !couples.any?{|first, second| !(first.time_range.to_a & second.time_range.to_a).empty? && (first.period_hall & second.period_hall).any?}
+    couples.none?{|fir, sec| sec.intersect?(fir) && (fir.period_hall & sec.period_hall).any?}
   end
 
 # печать расписания:
   def print_timetable
     @periods.each do |period| 
-      puts "Время: #{period.time_range}"
-      puts "#{period.period_description}"
-      puts "Кино: #{period.period_filters}"
-      puts "Цена: #{period.period_price}"
-      puts "Зал: #{period.period_hall.map(&:to_s)}"
+      period.print_period
       puts
     end
   end
+
+  def generate
+    @periods.each do |period|
+      starting_time = period.time_range.to_a.first
+      starting_time_in_minutes = starting_time.split(':').first.to_i*60 + starting_time.split(':').last.to_i
+      
+      ending_time = period.time_range.to_a.last
+      ending_time_in_minutes = ending_time.split(':').first.to_i*60 + ending_time.split(':').last.to_i
+
+      filtered_movie_list = filter(period.period_filters)
+      first_movie_list = []
+      
+      filtered_movie_list.each do |movie|
+        one_movie_period = starting_time_in_minutes + movie.time 
+        if one_movie_period <= ending_time_in_minutes
+          first_movie_list << movie
+        end
+      end
+      
+      puts "==========================="
+      puts period.period_description
+      puts "==========================="
+      puts
+
+      while starting_time_in_minutes <= ending_time_in_minutes
+        random_movie = first_movie_list.sample
+        starting_time_in_minutes += random_movie.time
+        if starting_time_in_minutes <= ending_time_in_minutes 
+          puts "Название: #{random_movie.title}"
+          puts "Начало: #{Time.at(starting_time_in_minutes*60).utc.strftime("%H:%M")}"
+          puts
+        end
+      end
+    end
+  end
+
 
 # Генерация расписания через метод:
   def timetable_generation
@@ -110,7 +141,6 @@ class Theater < MovieCollection
 
 
   def no_holes?
-    @periods.combination(2).select{|a, b| !(a.time_range.to_a & b.time_range.to_a).empty? }.length == (@periods.length - 1)
+    @periods.combination(2).select{|a, b| b.intersect?(a) }.length == (@periods.length - 1)
   end
-
 end
