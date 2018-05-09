@@ -96,8 +96,6 @@ describe Theater do
       end
     end
   end
-# надо ли добавлять тест на НЕвызов ошибки при валидном расписании?
-
 
   describe '.show' do
     
@@ -107,12 +105,16 @@ describe Theater do
       end
     end    
 
-
-#    context 'when more then one hall found' do
-#      subject{ -> {theater.show('11:00')}}
-#      it { is_expected.to output(/Now/).to_stdout }
-#    end	
+    context 'when more then one hall found' do
+      subject{ -> {theater.show('11:00')}}
+      it { is_expected.to raise_error ArgumentError }
+    end	
     
+    context 'when we give hall color as argument' do
+      subject{ -> {theater.show(:red, '11:00')}}
+      it { is_expected.to output(/Now showing:/i).to_stdout }
+    end
+
     # тесты на фильтры: массив и exclude
     context 'when filter is an Array' do
       subject{ -> {theater.show('17:00')}}

@@ -205,6 +205,14 @@ theater =
       hall :green
     end
   end
+
+begin
+  puts theater.show('11:00')
+rescue ArgumentError
+  puts theater.show(:red, '11:00')
+end
+
+
 #puts theater.valid?
 #puts theater.all.first.genre
 #puts theater.all.first.matches?(:year, 1941)
@@ -212,7 +220,7 @@ theater =
 
 #puts theater.no_holes?
 #theater.generate
-puts theater.print_timetable
+#puts theater.print_timetable
 
 #puts Time.at(theater.all.first.time*60).utc.strftime("%H:%M")
 #.cover?(Time.at(theater.all.first.time).strftime("%H:%M"))
