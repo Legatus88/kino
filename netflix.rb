@@ -48,6 +48,16 @@ class Netflix < MovieCollection
     end
   end
 
+  def apply_custom_filters(list, custom_filters)
+    custom_filters.reduce(list){|result, (key, value)|
+      result.select{ |movie| 
+        if value == true
+          @hash[key].call(movie)
+        else
+          @hash[key].call(movie, value)
+        end }}
+  end
+
   def how_much?(name)
     raise ArgumentError, 'Movie not found' if filter(title: name).empty?
     filter(title: name).first.price
