@@ -25,16 +25,16 @@ class Theater < MovieCollection
     @halls << Hall.new(hall_name, params)
   end
 
-  def show(time)
-    period_list = @periods.select{|period| period.time_range.cover?(Time.parse(time).strftime("%H:%M"))}
+  def show(hall=nil, time)
+    period_list = @periods.select{|period| period.time_range.cover?(time)}
     raise 'В это время нет показов' if period_list.empty?
-    if period_list.length > 1
-      print 'MORE THEN ONE HALL FOUND'
-      puts
-      print 'Enter the hall: '
-      wanted_hall = gets.chomp
-      period_list = period_list.select{|period| period.period_hall.include?(wanted_hall.to_sym)}  
+
+    if period_list.length > 1 && hall == nil
+      raise ArgumentError, 'Введите нужный зал'  
+    elsif period_list.length > 1
+      period_list = period_list.select{|period| period.period_hall.include?(hall)}
     end
+
     list = filter(period_list.first.period_filters)
     random_movie = list.sort_by { |m| m.rate * rand }.last
     print "Now showing: #{random_movie.title} #{Time.at(0).utc.strftime("%H:%M:%S")} - #{Time.at(random_movie.time*60).utc.strftime("%H:%M:%S")}"
