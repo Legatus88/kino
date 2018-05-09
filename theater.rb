@@ -99,47 +99,6 @@ class Theater < MovieCollection
     end
   end
 
-
-# Генерация расписания через метод:
-  def timetable_generation
-    hall :red, title: 'Красный зал', places: 100
-    hall :blue, title: 'Синий зал', places: 50
-    hall :green, title: 'Зелёный зал (deluxe)', places: 12    
-
-    de = ['Утренний сеанс', 'Спецпоказ', 'Вечерний сеанс', 'Вечерний сеанс для киноманов']
-    fi = [{genre: 'Comedy', year: 1900..1980}, {title: 'The Terminator'}, {genre: ['Action', 'Drama'], year: 2007..Time.now.year}, {year: 1900..1945, exclude_country: 'USA'}]
-    pr = [10, 50, 20, 30]
-    ha = [[:red, :blue], :green, [:red, :blue], :green]
-    t_r = []
-
-    starting_time = '09:00'
-    starting_time_arr = starting_time.split(':')
-    starting_time_minutes = starting_time_arr.first.to_i*60 + starting_time_arr.last.to_i
-
-    fi.each do |fil|
-      biggest_movie_length = filter(fil).map(&:time).sort.last
-      period_ending = starting_time_minutes + biggest_movie_length
-      time_range = Time.at(starting_time_minutes*60).utc.strftime("%H:%M")..Time.at(period_ending*60).utc.strftime("%H:%M")
-      
-      t_r << time_range
-      starting_time_minutes = period_ending
-    end
-
-    de.each do |desc|
-      i = de.index(desc)
-      period t_r[i] do
-      description de[i]
-      filters fi[i]
-      price pr[i]
-      hall ha[i]
-      end 
-    end
-
-    raise 'Есть дыры в расписании' if !self.no_holes?
-    raise 'Расписание не корректно' if !self.valid?
-  end
-
-
   def no_holes?
     @periods.combination(2).select{|a, b| b.intersect?(a) }.length == (@periods.length - 1)
   end
