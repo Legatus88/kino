@@ -43,16 +43,15 @@ describe Netflix do
     end
 
     context 'when filter defined' do
-      before { netflix.define_filter(:f1) { |movie, year| !movie.title.include?('Citizen Kane') && !movie.genre.include?('Action') && movie.year == year} 
-               netflix.define_filter(:new_f1, from: :f1, arg: 1941) }
+      before { netflix.define_filter(:f1) { |movie, year| !movie.title.include?('Citizen Kane') && !movie.genre.include?('Action') && movie.year == year} }
+      before { netflix.define_filter(:new_f1, from: :f1, arg: 1941) }
       subject{ -> {netflix.show(new_f1: true, genre: 'Drama')} }
       it { is_expected.to output('Now showing: The Maltese Falcon 00:00:00 - 01:40:00').to_stdout }     
     end    
 
     context 'when from is incorrect' do
-      it 'raise ArgumentError' do
-        expect{ netflix.define_filter(:new_filter, from: :aaaaaaaaa, arg: 2009) }.to raise_error ArgumentError, 'Такого фильтра не существует'
-      end
+      subject { -> {netflix.define_filter(:new_filter, from: :aaaaaaaaa, arg: 2009)}}
+      it { is_expected.to raise_error ArgumentError, 'Такого фильтра не существует' }
     end
   end
 

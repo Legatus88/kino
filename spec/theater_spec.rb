@@ -2,96 +2,158 @@ require './theater'
 
 describe Theater do
   
-  let(:theater) { Theater.new('movies.txt') }  
+  let(:th) { Theater.new('movies.txt') }
+  let(:theater) { Theater.new('movies.txt') do
+    hall :red, title: 'Красный зал', places: 100
+    hall :blue, title: 'Синий зал', places: 50
+    hall :green, title: 'Зелёный зал (deluxe)', places: 12
+
+    period '09:00'..'11:00' do
+      description 'Утренний сеанс'
+      filters genre: 'Comedy', year: 1900..1980
+      price 10
+      hall :red, :blue
+    end
+
+    period '11:00'..'16:00' do
+      description 'Спецпоказ'
+      title 'The Terminator'
+      price 50
+      hall :green
+    end
+
+    period '16:00'..'20:00' do
+      description 'Вечерний сеанс'
+      filters genre: ['Action', 'Drama'], year: 2007..Time.now.year, title: 'Mad Max: Fury Road'
+      price 20
+      hall :red, :blue
+    end
+
+    period '19:00'..'22:00' do
+      description 'Вечерний сеанс для киноманов'
+      filters year: 1900..1945, exclude_country: 'USA', title: 'M'
+      price 30
+      hall :green
+    end
+  end }  
    
+  
+  describe 'creation' do
+
+    context 'when holes in timetable are exist' do 
+      subject do 
+        Theater.new('movies.txt') do
+          hall :red, title: 'Красный зал', places: 100
+          hall :blue, title: 'Синий зал', places: 50
+          hall :green, title: 'Зелёный зал (deluxe)', places: 12
+
+          period '09:00'..'11:00' do
+          description 'Утренний сеанс'
+          filters genre: 'Comedy', year: 1900..1980
+          price 10
+          hall :red, :blue
+          end
+
+          period '12:00'..'16:00' do
+          description 'Спецпоказ'
+          title 'The Terminator'
+          price 50
+          hall :red
+          end
+        end
+      end
+
+      it 'raises RuntimeError' do
+        expect{ subject }.to raise_error RuntimeError
+      end
+    end
+
+    context 'when timetable is incorrect' do
+      subject do 
+        Theater.new('movies.txt') do
+          hall :red, title: 'Красный зал', places: 100
+          hall :blue, title: 'Синий зал', places: 50
+          hall :green, title: 'Зелёный зал (deluxe)', places: 12
+
+          period '09:00'..'11:00' do
+          description 'Утренний сеанс'
+          filters genre: 'Comedy', year: 1900..1980
+          price 10
+          hall :red, :blue
+          end
+
+          period '10:00'..'16:00' do
+          description 'Спецпоказ'
+          title 'The Terminator'
+          price 50
+          hall :red
+          end
+        end
+      end
+
+      it 'raises RuntimeError' do
+        expect{ subject }.to raise_error RuntimeError
+      end
+    end
+  end
+# надо ли добавлять тест на НЕвызов ошибки при валидном расписании?
+
+
   describe '.show' do
     
-    context 'when gets morning time' do
-      it 'gives period: :ancient filter' do
-        allow(theater).to receive(:filter).and_return([AncientMovie.new({title: "Citizen Kane", rate: 8.4, year: 1940, genre: 'Drama,Mystery', period: :ancient, actors: 'Orson Welles,Joseph Cotten,Dorothy Comingore'}, 'something')])
-        theater.show('08:00')
-        expect(theater).to have_received(:filter).with(period: :ancient)
-      end
-    end
-
-    context 'when gets day time' do
-      it 'gives period: :ancient filter' do
-        allow(theater).to receive(:filter).and_return([AncientMovie.new({title: "Citizen Kane", rate: 8.4, year: 1965, genre: 'Comedy', period: :ancient, actors: 'Orson Welles,Joseph Cotten,Dorothy Comingore'}, 'something')])
-        theater.show('13:00')
-        expect(theater).to have_received(:filter).with(period: /classic|modern|new/i, genre: /Comedy|Advanture/)
-      end
-    end
-
-    context 'when gets evening time' do
-      it 'gives period: :ancient filter' do
-        allow(theater).to receive(:filter).and_return([AncientMovie.new({title: "Citizen Kane", rate: 8.4, year: 1990, genre: 'Drama,Mystery', period: :ancient, actors: 'Orson Welles,Joseph Cotten,Dorothy Comingore'}, 'something')])
-        theater.show('19:00')
-        expect(theater).to have_received(:filter).with(period: /classic|modern|new/i, genre: /Drama|Horror/)
-      end
-    end 
-
-    context 'when gets morning time' do
-      it 'prints a correct string' do
-        allow(theater).to receive(:filter).and_return([AncientMovie.new({title: "Citizen Kane", rate: 8.4, year: 1940, genre: 'Drama,Mystery', period: :ancient, actors: 'Orson Welles,Joseph Cotten,Dorothy Comingore'}, 'something')])
-        expect{ theater.show('08:00') }.to output('Now showing: Citizen Kane 00:00:00 - 00:00:00').to_stdout
-      end
-    end
-
     context 'when the time is wrong' do
-      it 'raise NoMethodError' do
-      	expect{ theater.show('01:00') }.to raise_error NoMethodError
+      it 'raise RuntimeError' do
+        expect{ theater.show('08:00') }.to raise_error RuntimeError
       end
-    end	
-  end   
+    end    
+
+
+#    context 'when more then one hall found' do
+#      subject{ -> {theater.show('11:00')}}
+#      it { is_expected.to output(/Now/).to_stdout }
+#    end	
+    
+    # тесты на фильтры: массив и exclude
+    context 'when filter is an Array' do
+      subject{ -> {theater.show('17:00')}}
+      it { is_expected.to output('Now showing: Mad Max: Fury Road 00:00:00 - 02:00:00').to_stdout}
+    end
+
+    context 'when filter is exclude_' do
+      subject{ -> {theater.show('22:00')}}
+      it { is_expected.to output('Now showing: M 00:00:00 - 01:39:00').to_stdout}
+    end
+  end
 
   describe '.when?' do
-  	context 'when movie is in the morning timetable' do
-  	  it 'gives a time range' do
-  	  	expect(theater.when?('Citizen Kane')).to eq(['08:00'..'12:00'])
-  	  end
+    context 'when name is correct' do
+      it 'returns time' do
+        expect(theater.when?('M')).to eq("19:00".."22:00")
+      end
     end
 
-    context 'when movie is not in the timetable' do 
-      it 'gives nothing' do
-      	expect(theater.when?('The Terminator')).to eq([])
-      end
+    context 'when name is incorrect' do
+      subject { -> {theater.when?('MMM')}}
+      it { is_expected.to raise_error RuntimeError }
     end
   end
 
   describe '.buy_ticket' do
-    context 'when name is incorrect' do
-      it 'raises NameError' do
-        expect{ theater.buy_ticket(awd) }.to raise_error NameError
-      end
+    context 'when title is correct' do
+      subject { -> {theater.buy_ticket('M')}}
+      it { is_expected.to output{'Вы купили билет на M'}.to_stdout}
     end
 
-    context 'when name movie is shown in morning time' do
-      it 'adds gives to cash 3' do
-        theater.buy_ticket('Citizen Kane')
-        expect(theater.cash.to_i).to eq(3)
+    context 'when title is incorrect' do
+      subject { -> {theater.buy_ticket('MMM')}}
+      it { is_expected.to raise_error NameError }
+    end
+  
+    context 'when price is 30' do
+      before {theater.buy_ticket('M')}
+      it 'raises cash' do
+        expect(theater.cash.to_i).to equal(30)
       end
     end
-
-    context 'when name movie is shown in day time' do
-      it 'adds gives to cash 3' do
-        theater.buy_ticket('Back to the Future')
-        expect(theater.cash.to_i).to eq(5)
-      end
-    end
-
-
-    context 'when name movie is shown in evening time' do
-      it 'adds gives to cash 3' do
-        theater.buy_ticket('Pulp Fiction')
-        expect(theater.cash.to_i).to eq(10)
-      end
-    end
-
-
-    context 'when movie is not in the timetable' do
-      it 'raises error' do
-        expect{ theater.buy_ticket('awd') }.to raise_error NameError
-      end
-    end    
   end
 end

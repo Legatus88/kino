@@ -1,10 +1,39 @@
 require 'csv'
 require 'money'
+require 'virtus'
 
 class Movie
-
-  attr_reader :period, :col, :my_hash, :link, :title, :year, :country, :starting_date, :genre, :time, :rate, :producer, :actors, :period  
-
+  
+  include Virtus.model
+  
+  attribute :my_hash, Hash
+  attribute :link, String
+  attribute :title, String
+  attribute :year, Integer
+  attribute :country, String
+  attribute :starting_date, String
+  attribute :genre, String
+  attribute :time, Integer
+  attribute :rate, Float
+  attribute :producer, String
+  attribute :actors, String
+  attribute :col, Object
+ 
+  def initialize(hash={}, collection)
+    @col = collection
+    @my_hash = my_hash
+    @link = hash[:link]
+    @title = hash[:title]
+    @year = hash[:year].to_i
+    @country = hash[:country]
+    @starting_date = hash[:starting_date]
+    @genre = hash[:genre].split(',')
+    @time = hash[:time].to_i
+    @rate = hash[:rate].to_f
+    @producer = hash[:producer]
+    @actors = hash[:actors].split(',')
+  end
+  
   def self.create(line, list)
     case line[:year].to_i
     when 1900..1945
@@ -18,27 +47,16 @@ class Movie
     end
   end
   
-  def initialize(hash={}, collection)
-    @col = collection
-    @my_hash = hash
-    @link = hash[:link]
-    @title = hash[:title]
-    @year = hash[:year].to_i
-    @country = hash[:country]
-    @starting_date = hash[:starting_date]
-    @genre = hash[:genre].split(',')
-    @time = hash[:time].to_i
-    @rate = hash[:rate].to_f
-    @producer = hash[:producer]
-    @actors = hash[:actors].split(',')
-  end
-
   def period
     self.class.to_s.chomp('Movie').downcase.to_sym
   end
 
   def matches?(key, value)
-    Array(send(key)).any? {|cell| value === cell}
+    if key.to_s.start_with?('exclude_')
+      new_key = key.to_s.sub('exclude_', '')
+      return Array(send(new_key)).any?{|cell| cell != value}
+    end
+    Array(send(key)).any?{|cell| Array(value).any?{|v| v === cell}}
   end
 
   def has_genre?(param)
