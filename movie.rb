@@ -67,4 +67,20 @@ class Movie
   def price
     self.class::COST
   end
+
+  def id_sym
+    @link.split('/')[4].to_sym 
+  end
+
+  def poster
+    YAML.load(File.read('./base.yml'))[id_sym].first[:poster]
+  end
+
+  def ru_title
+    YAML.load(File.read('./base.yml'))[id_sym].first[:ru_title]
+  end
+
+  def budget
+    YAML.load(File.read('./budget.yml'))[id_sym].first
+  end
 end
