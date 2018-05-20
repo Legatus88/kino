@@ -206,16 +206,20 @@
 #puts x = Time.at(minutes*60).utc.strftime("%H:%M")
 
 require './movie_collection'
-require './poster_and_title'
-require './budget'
+require './poster_downloader'
+require './title_downloader'
+require './budget_downloader'
 require './render'
 
 Tmdb::Api.key("30a084fe6001b01d304f10f8baf2cefd")
 
 col = MovieCollection.new('movies.txt')
-pat = PosterTitle.new(col)
-bud = Budget.new(col)
 
-#bud.write_to_file('./budget.yml')
-pat.write_to_file('./base.yml')
+#PosterDownloader.new(col).download.save('./poster.yml')
+#TitleDownloader.new(col).download.save('./ru_title.yml')
+#BudgetDownloader.new(col).download.save('./budget.yml')
+
 #write_haml('./includes/index.html')
+
+pos = PosterDownloader.new(col)
+puts pos.imdb_id(pos.collection.all.to_a.first).class
