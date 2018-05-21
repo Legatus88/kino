@@ -6,6 +6,7 @@ require 'progress_bar'
 
 
 class BudgetDownloader
+  attr_accessor :collection, :big_hash
   
   def initialize(collection)
     @collection = collection
@@ -45,7 +46,7 @@ class BudgetDownloader
   end
 
   def download
-    bar = ProgressBar.new(@collection.all.length)
+    bar = ProgressBar.new(@collection.to_a.length)
     @collection.each do |movie| 
       download_for(movie)
       bar.increment!

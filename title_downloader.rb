@@ -4,6 +4,7 @@ require 'themoviedb-api'
 require 'progress_bar'
 
 class TitleDownloader
+  attr_accessor :collection, :big_hash
   
   def initialize(collection)
     @collection = collection
@@ -36,7 +37,7 @@ class TitleDownloader
   end
 
   def download
-    bar = ProgressBar.new(@collection.all.length)
+    bar = ProgressBar.new(@collection.to_a.length)
     @collection.each do |movie| 
       download_for(movie)
       bar.increment!

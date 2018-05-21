@@ -213,13 +213,17 @@ require './render'
 
 Tmdb::Api.key("30a084fe6001b01d304f10f8baf2cefd")
 
-col = MovieCollection.new('movies.txt')
+col = MovieCollection.new('movies.txt').first(5)
+pos = PosterDownloader.new(col)
+bud = BudgetDownloader.new(col)
+tit = TitleDownloader.new(col)
 
+#puts bud.page_open(col.all.first.link).css('h1').text.strip
+
+puts bud.download#.first
+puts bud.big_hash
 #PosterDownloader.new(col).download.save('./poster.yml')
 #TitleDownloader.new(col).download.save('./ru_title.yml')
 #BudgetDownloader.new(col).download.save('./budget.yml')
 
 #write_haml('./includes/index.html')
-
-pos = PosterDownloader.new(col)
-puts pos.imdb_id(pos.collection.all.to_a.first).class

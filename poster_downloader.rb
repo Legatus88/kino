@@ -5,7 +5,7 @@ require 'progress_bar'
 require './saver'
 
 class PosterDownloader
-  attr_accessor :collection
+  attr_accessor :collection, :big_hash
 
   def initialize(collection)
     @collection = collection
@@ -30,7 +30,7 @@ class PosterDownloader
 
   # загрузка всех постеров
   def download
-    bar = ProgressBar.new(@collection.all.length)
+    bar = ProgressBar.new(@collection.to_a.length)
     @collection.each do |movie| 
       download_for(movie)
       bar.increment!
