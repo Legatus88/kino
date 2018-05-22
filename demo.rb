@@ -206,16 +206,16 @@
 #puts x = Time.at(minutes*60).utc.strftime("%H:%M")
 
 require './movie_collection'
-require './title_and_poster_downloader.rb'
+require './tmdb_downloader.rb'
 require './budget_downloader.rb'
 require './render'
 require 'dotenv/load'
 
 col = MovieCollection.new('movies.txt').first(5)
 fm = col.to_a.first
-#tit = TitleAndPosterDownloader.new(col)
+tit = TMDBDownloader.new(col)
 bud = BudgetDownloader.new(col)
-puts bud.wanted_div(fm).class
+puts tit.full_movie(fm)
 
 
 #puts bud.download.save('./budget.yml')#open_from_hard(fm)#.download.save('./budget.yml')
