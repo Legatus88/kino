@@ -73,14 +73,18 @@ class Movie
   end
 
   def poster
-    YAML.load(File.read('./poster.yml'))[id_sym].first
+    YAML.load(File.read('./title_and_poster.yml'))[id_sym].first[:poster]
   end
 
   def ru_title
-    YAML.load(File.read('./ru_title.yml'))[id_sym].first
+    YAML.load(File.read('./title_and_poster.yml'))[id_sym].first[:title]
   end
 
   def budget
-    YAML.load(File.read('./budget.yml'))[id_sym].first
+    YAML.load(File.read('./budget.yml'))[id_sym].first[:budget]
+  end
+
+  def imdb_id
+    link.split('/')[4]
   end
 end

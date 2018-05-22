@@ -1,11 +1,11 @@
 require 'yaml'
 
 class Saver 
-  def initialize(big_hash)
-  	@big_hash = big_hash
+  def initialize(data)
+  	@data = data
   end
 
   def save(path)
-    File.write(path, @big_hash.to_yaml)     
+    File.write(path, @data.to_yaml)     
   end
 end

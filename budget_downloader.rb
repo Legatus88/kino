@@ -6,54 +6,49 @@ require 'progress_bar'
 
 
 class BudgetDownloader
-  attr_accessor :collection, :big_hash
-  
+
   def initialize(collection)
     @collection = collection
-    @big_hash = {}
   end
 
-  # открытие страницы
-  def page_open(link)
+  def open_page(link)
     html = open(link, :allow_redirections => :safe) # только так удалось выполнить редирект
     Nokogiri::HTML(html)
   end
 
-  # сохранялка на хард
-  def page_download(link)
-    File.write('./page.html', page_open(link))
+  def download_page(link)
+    File.write('./page.html', open_page(link))
   end
 
   def open_from_hard(movie)
-    page_download(movie.link)
+    download_page(movie.link)
     Nokogiri::HTML(File.read('page.html'))
   end
 
-  def download_for(movie)
-    hard = open_from_hard(movie)
-    id_key = movie.link.split('/')[4].to_sym
+  def wanted_div(movie)
+    @div = open_from_hard(movie).at('div.txt-block:contains("Budget:")')
+  end
 
-    all_h4 = hard.css('div.txt-block h4')
-    wanted_h4 = all_h4.select{|h4| h4.text.eql? 'Budget:'}.first
-    
-    if !wanted_h4.nil?
-      div_number = all_h4.index(wanted_h4)
-      wanted_div = hard.css('div.txt-block')[div_number] 
-      @big_hash[id_key] = [wanted_div.text.strip.split(' ').first.sub(/^Budget:/, '')]
+  def download_for(movie)
+    if !@div.nil?
+      @div.search('span').each{ |src| src.remove }
+      @div.text.strip.sub(/^Budget:/, '')
     else
-      @big_hash[id_key] = ['Unknown']
+      'Unknown'
     end
   end
 
   def download
     bar = ProgressBar.new(@collection.to_a.length)
-    @collection.each do |movie| 
-      download_for(movie)
+    @data = @collection.map do |movie| 
+      wanted_div(movie)
       bar.increment!
-    end    
-    Saver.new(@big_hash)  
+      {movie.imdb_id.to_sym => [{:budget => download_for(movie)}]}
+    end
+    Saver.new(@data)  
+  end
+
+  def data # нужен только для тестирования download
+    @data
   end
 end
-
-# зачем скачивать страницу на хард?
-# мы по времени выигрываем? или по ресурсам?

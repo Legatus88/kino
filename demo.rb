@@ -206,24 +206,24 @@
 #puts x = Time.at(minutes*60).utc.strftime("%H:%M")
 
 require './movie_collection'
-require './poster_downloader'
-require './title_downloader'
-require './budget_downloader'
+require './title_and_poster_downloader.rb'
+require './budget_downloader.rb'
 require './render'
-
-Tmdb::Api.key("30a084fe6001b01d304f10f8baf2cefd")
+require 'dotenv/load'
 
 col = MovieCollection.new('movies.txt').first(5)
-pos = PosterDownloader.new(col)
+fm = col.to_a.first
+#tit = TitleAndPosterDownloader.new(col)
 bud = BudgetDownloader.new(col)
-tit = TitleDownloader.new(col)
+puts bud.wanted_div(fm).class
 
-#puts bud.page_open(col.all.first.link).css('h1').text.strip
 
-puts bud.download#.first
-puts bud.big_hash
-#PosterDownloader.new(col).download.save('./poster.yml')
-#TitleDownloader.new(col).download.save('./ru_title.yml')
-#BudgetDownloader.new(col).download.save('./budget.yml')
+#puts bud.download.save('./budget.yml')#open_from_hard(fm)#.download.save('./budget.yml')
+
+
+
+
+#puts col.first(5).download
 
 #write_haml('./includes/index.html')
+

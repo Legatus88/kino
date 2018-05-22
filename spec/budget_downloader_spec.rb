@@ -8,42 +8,48 @@ describe BudgetDownloader do
   let(:budget_downloader) { BudgetDownloader.new(collection) }
   let(:budget_downloader_short) { BudgetDownloader.new(collection.first(5))}
   let(:first_movie) { collection.all.first }
+  let(:last_movie) { collection.all.last }
   let(:link) { first_movie.link }
 
-  describe "#page_open" do
+  describe "#open_page", :vcr do
   	it "gives HTML page" do 
-      VCR.use_cassette('/vcr/html_page') do
-	    page = budget_downloader.page_open(link)
-	    expect(page.class).to eq(Nokogiri::HTML::Document)
+	    page = budget_downloader.open_page(link)
+      expect(page.class).to eq(Nokogiri::HTML::Document)
 	    expect(page.css('h1').text.strip).to eq('Побег из Шоушенка (1994)')
 	  end
-	end
   end
 
-  describe "#open_from_hard" do
+  describe "#open_from_hard", :vcr do
   	it "gives HTML page" do 
-      VCR.use_cassette('/vcr/html_page') do
 	    page = budget_downloader.open_from_hard(first_movie)
 	    expect(page.class).to eq(Nokogiri::HTML::Document)
 	    expect(page.css('h1').text.strip).to eq('Побег из Шоушенка (1994)')
-	  end
-	end
+  	end
   end
 
-  describe "#download_for" do
+  describe "#wanted_div", :vcr do
+    subject { budget_downloader.wanted_div(first_movie).class } 
+    it { is_expected.to eq(Nokogiri::XML::Element) }     
+  end
+
+  describe "#download_for", :vcr do
     it "gives movie budget" do
-      VCR.use_cassette('/vcr/html_page') do
-	    expect(budget_downloader.download_for(first_movie).first).to eq('$25,000,000')     	
-      end
+      budget_downloader.wanted_div(first_movie)
+	    expect(budget_downloader.download_for(first_movie)).to eq('$25,000,000')     	
+    end
+
+    it "gives movie budget" do
+      budget_downloader.wanted_div(last_movie) 
+      expect(budget_downloader.download_for(first_movie)).to eq('Unknown')      
     end
   end
 
-  describe "#download" do
-  	it "download all titles for collection" do
-  	  VCR.use_cassette('/vcr/html_page') do
-  	  	expect{ budget_downloader_short.download }.to change{ budget_downloader_short.big_hash.length }.from(0).to(5)
-  	  end
-  	end
+  describe "#download", :vcr do
+    context "it writes budget info to @data" do
+      before { budget_downloader_short.download }
+      subject { budget_downloader_short.data.length }
+      it { is_expected.to eq(5) }
+    end
   end
 end
 
