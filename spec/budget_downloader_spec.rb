@@ -1,6 +1,5 @@
 require './budget_downloader'
 require 'vcr'
-require './saver'
 
 describe BudgetDownloader do 
 
@@ -13,7 +12,7 @@ describe BudgetDownloader do
 
   describe "#open_page", :vcr do
   	it "gives HTML page" do 
-	    page = budget_downloader.open_page(link)
+	    page = budget_downloader.send(:open_page, link)
       expect(page.class).to eq(Nokogiri::HTML::Document)
 	    expect(page.css('h1').text.strip).to eq('Побег из Шоушенка (1994)')
 	  end
@@ -21,7 +20,7 @@ describe BudgetDownloader do
 
   describe "#open_from_hard", :vcr do
   	it "gives HTML page" do 
-	    page = budget_downloader.open_from_hard(first_movie)
+	    page = budget_downloader.send(:open_from_hard, first_movie)
 	    expect(page.class).to eq(Nokogiri::HTML::Document)
 	    expect(page.css('h1').text.strip).to eq('Побег из Шоушенка (1994)')
   	end
@@ -33,21 +32,20 @@ describe BudgetDownloader do
   end
 
   describe "#download_for", :vcr do
-    it "gives movie budget" do
-      budget_downloader.wanted_div(first_movie)
-	    expect(budget_downloader.download_for(first_movie)).to eq('$25,000,000')     	
+    context 'gives a real budget' do
+      subject { budget_downloader.download_for(first_movie) }
+      it { is_expected.to eq('$25,000,000') }
     end
 
-    it "gives movie budget" do
-      budget_downloader.wanted_div(last_movie) 
-      expect(budget_downloader.download_for(first_movie)).to eq('Unknown')      
+    context 'gives an unknown budget' do
+      subject { budget_downloader.download_for(last_movie) }
+      it { is_expected.to eq('Unknown') }
     end
   end
 
-  describe "#download", :vcr do
-    context "it writes budget info to @data" do
-      before { budget_downloader_short.download }
-      subject { budget_downloader_short.data.length }
+  describe "#load_all!", :vcr do
+    context "it loads budget info to @data" do
+      subject { budget_downloader_short.load_all!.length }
       it { is_expected.to eq(5) }
     end
   end

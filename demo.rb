@@ -211,19 +211,20 @@ require './budget_downloader.rb'
 require './render'
 require 'dotenv/load'
 
-col = MovieCollection.new('movies.txt').first(5)
-fm = col.to_a.first
-tit = TMDBDownloader.new(col)
+col = MovieCollection.new('movies.txt')
+fm = col.all.first
+
 bud = BudgetDownloader.new(col)
-puts tit.full_movie(fm)
+#puts bud.download_for(fm)
+#bud.load_all!
+#bud.write_to('./budget.yml')
 
-
-#puts bud.download.save('./budget.yml')#open_from_hard(fm)#.download.save('./budget.yml')
-
-
-
-
-#puts col.first(5).download
+tmdb = TMDBDownloader.new(col)
+#puts tmdb.download_title_for(fm)
+#puts tmdb.download_poster_for(fm)
+#puts tmdb.download_both_for(fm)
+puts tmdb.download_for(fm).class
+#tmdb.write('./title_and_poster.yml')
 
 #write_haml('./includes/index.html')
 
