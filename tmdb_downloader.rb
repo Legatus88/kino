@@ -25,7 +25,7 @@ class TMDBDownloader
       bar.increment!
       download_for(movie)
     end
-    @data = @data.reduce Hash.new, :merge 
+    @data = @data.reduce(:merge)
   end
 
   def write(path)

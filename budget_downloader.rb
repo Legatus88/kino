@@ -23,7 +23,7 @@ class BudgetDownloader
       bar.increment!
       {movie.imdb_id => {:budget => download_for(movie)}}
     end
-    @data = @data.reduce Hash.new, :merge 
+    @data = @data.reduce(:merge)
   end
 
   def write_to(path)
