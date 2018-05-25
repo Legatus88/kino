@@ -1,11 +1,12 @@
 require 'csv'
 require 'money'
 require 'virtus'
+require './extra'
 
 class Movie
-  
   include Virtus.model
-  
+  extend Extra
+
   attribute :my_hash, Hash
   attribute :link, String
   attribute :title, String
@@ -68,20 +69,16 @@ class Movie
     self.class::COST
   end
 
-  def id_sym
-    @link.split('/')[4].to_sym 
-  end
-
   def poster
-    YAML.load(File.read('./title_and_poster.yml'))[id_sym].first[:poster]
+    Movie.data_tmdb[imdb_id][:poster]
   end
 
   def ru_title
-    YAML.load(File.read('./title_and_poster.yml'))[id_sym].first[:title]
+    Movie.data_tmdb[imdb_id][:title]
   end
 
   def budget
-    YAML.load(File.read('./budget.yml'))[id_sym].first[:budget]
+    Movie.data_budget[imdb_id][:budget]
   end
 
   def imdb_id

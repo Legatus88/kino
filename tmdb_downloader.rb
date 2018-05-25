@@ -16,7 +16,7 @@ class TMDBDownloader
     info = full_movie(movie)
     title = info.title
     poster = "http://image.tmdb.org/t/p/w185/#{info.poster_path}"
-    {movie.imdb_id.to_sym => [{:title => title,}, {:poster => poster}]}
+    {movie.imdb_id => {title: title, poster: poster}}
   end
 
   def load_all!
@@ -25,6 +25,7 @@ class TMDBDownloader
       bar.increment!
       download_for(movie)
     end
+    @data = @data.reduce Hash.new, :merge 
   end
 
   def write(path)
@@ -32,10 +33,6 @@ class TMDBDownloader
   end
 
   private
-
-  def id(movie)
-    full_movie(movie).id
-  end
 
   def full_movie(movie)
     Tmdb::Find.movie(movie.imdb_id, external_source: 'imdb_id').first

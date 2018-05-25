@@ -19,7 +19,7 @@ describe TMDBDownloader do
 
   describe "#download_for" do
     subject { downloader.download_for(first_movie) }
-    it { is_expected.to eq({:tt0111161=>[{:title=>"Побег из Шоушенка"}, {:poster=>"http://image.tmdb.org/t/p/w185//sRBNv6399ZpCE4RrM8tRsDLSsaG.jpg"}]})}
+    it { is_expected.to eq({'tt0111161'=>{:title=>"Побег из Шоушенка", :poster=>"http://image.tmdb.org/t/p/w185//sRBNv6399ZpCE4RrM8tRsDLSsaG.jpg"}})}
   end
 
   describe "amount fo calls", :vcr do

@@ -11,26 +11,19 @@ class BudgetDownloader
     @collection = collection
   end
 
-  def wanted_div(movie)
-    open_from_hard(movie).at('div.txt-block:contains("Budget:")')
-  end
-
   def download_for(movie)
-    div = wanted_div(movie)
-    if !div.nil?
-      div.search('span').each{ |src| src.remove }
-      div.text.strip.sub(/^Budget:/, '')
-    else
-      'Unknown'
-    end
+    div = open_from_hard(movie).at('div.txt-block:contains("Budget:")') or return nil
+    div.search('span').each{ |src| src.remove }
+    div.text.strip.sub(/^Budget:/, '')
   end
 
   def load_all!
     bar = ProgressBar.new(@collection.to_a.length)
     @data = @collection.map do |movie| 
       bar.increment!
-      {movie.imdb_id.to_sym => [{:budget => download_for(movie)}]}
-    end 
+      {movie.imdb_id => {:budget => download_for(movie)}}
+    end
+    @data = @data.reduce Hash.new, :merge 
   end
 
   def write_to(path)
@@ -40,12 +33,11 @@ class BudgetDownloader
   private 
 
   def open_page(link)
-    html = open(link, :allow_redirections => :safe) # только так удалось выполнить редирект
-    Nokogiri::HTML(html)
+    open(link, :allow_redirections => :safe)
   end
 
   def download_page(movie)
-    File.write("./tmp/#{movie.imdb_id}.html", open_page(movie.link))
+    File.write("./tmp/#{movie.imdb_id}.html", open_page(movie.link).read)
   end
 
   def open_from_hard(movie)

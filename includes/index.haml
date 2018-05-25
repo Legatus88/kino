@@ -10,8 +10,6 @@
     %title Список фильмов
   %body
     %table{:class => "table table-striped"}
-      / почему то caption он отправляет вниз таблицы
-      /%caption Список фильмов
       - collection.each do |movie|
         %tr
           %td>

@@ -205,6 +205,17 @@
 #minutes = arr.first.to_i*60 + arr.last.to_i + a
 #puts x = Time.at(minutes*60).utc.strftime("%H:%M")
 
+# первый вариант решения проблемы множественных запросов в ямл
+#  def self.additional_data_tmdb
+#    @additional_data_tmdb ||= YAML.load(File.read('./title_and_poster.yml'))
+#  end
+
+#  def self.additional_data_budget
+#    @additional_data_budget ||= YAML.load(File.read('./budget.yml'))
+#  end
+
+
+
 require './movie_collection'
 require './tmdb_downloader.rb'
 require './budget_downloader.rb'
@@ -212,19 +223,16 @@ require './render'
 require 'dotenv/load'
 
 col = MovieCollection.new('movies.txt')
-fm = col.all.first
+#fm = col.all.first
 
 bud = BudgetDownloader.new(col)
 #puts bud.download_for(fm)
-#bud.load_all!
-#bud.write_to('./budget.yml')
+puts bud.load_all!
+bud.write_to('./budget.yml')
 
 tmdb = TMDBDownloader.new(col)
-#puts tmdb.download_title_for(fm)
-#puts tmdb.download_poster_for(fm)
-#puts tmdb.download_both_for(fm)
-puts tmdb.download_for(fm).class
-#tmdb.write('./title_and_poster.yml')
+#tmdb.download_for(col.all.last)
+tmdb.load_all!
+tmdb.write('./title_and_poster.yml')
 
-#write_haml('./includes/index.html')
-
+write_haml('./includes/index.html')
