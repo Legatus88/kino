@@ -6,23 +6,23 @@ require 'progress_bar'
 require './extra'
 
 module Extra
+  # it finds and downloads budget info
   class BudgetDownloader
-
     def initialize(collection)
       @collection = collection
     end
 
     def download_for(movie)
       div = open_from_hard(movie).at('div.txt-block:contains("Budget:")') or return nil
-      div.search('span').each{ |src| src.remove }
+      div.search('span').each(&:remove)
       div.text.strip.sub(/^Budget:/, '')
     end
 
     def load_all!
       bar = ProgressBar.new(@collection.to_a.length)
-      @data = @collection.map do |movie| 
+      @data = @collection.map do |movie|
         bar.increment!
-        {movie.imdb_id => {:budget => download_for(movie)}}
+        { movie.imdb_id => { budget: download_for(movie) } }
       end
       @data = @data.reduce(:merge)
     end
@@ -31,10 +31,10 @@ module Extra
       File.write(path, @data.to_yaml)
     end
 
-    private 
+    private
 
     def open_page(link)
-      open(link, :allow_redirections => :safe)
+      open(link, allow_redirections: :safe)
     end
 
     def download_page(movie)
@@ -42,9 +42,8 @@ module Extra
     end
 
     def open_from_hard(movie)
-      download_page(movie) if !File.exist?("./tmp/#{movie.imdb_id}.html")
+      download_page(movie) unless File.exist?("./tmp/#{movie.imdb_id}.html")
       Nokogiri::HTML(File.read("./tmp/#{movie.imdb_id}.html"))
     end
-
   end
 end

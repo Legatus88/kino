@@ -3,6 +3,7 @@ require 'money'
 require 'virtus'
 require './extra'
 
+# single movie class
 class Movie
   include Virtus.model
   extend Extra
@@ -20,7 +21,7 @@ class Movie
   attribute :actors, String
   attribute :col, Object
  
-  def initialize(hash={}, collection)
+  def initialize(hash = {}, collection)
     @col = collection
     @my_hash = my_hash
     @link = hash[:link]
@@ -34,7 +35,7 @@ class Movie
     @producer = hash[:producer]
     @actors = hash[:actors].split(',')
   end
-  
+
   def self.create(line, list)
     case line[:year].to_i
     when 1900..1945
@@ -44,10 +45,10 @@ class Movie
     when 1968..2000
       ModernMovie.new(line, list)
     when 2000..Time.now.year.to_i
-      NewMovie.new(line, list) 
+      NewMovie.new(line, list)
     end
   end
-  
+
   def period
     self.class.to_s.chomp('Movie').downcase.to_sym
   end
@@ -55,9 +56,9 @@ class Movie
   def matches?(key, value)
     if key.to_s.start_with?('exclude_')
       new_key = key.to_s.sub('exclude_', '')
-      return Array(send(new_key)).any?{|cell| cell != value}
+      return Array(send(new_key)).any? { |cell| cell != value }
     end
-    Array(send(key)).any?{|cell| Array(value).any?{|v| v === cell}}
+    Array(send(key)).any? { |cell| Array(value).any?{ |v| v === cell } }
   end
 
   def has_genre?(param)

@@ -6,24 +6,24 @@ require 'dotenv/load'
 require './extra'
 
 module Extra
+  # it finds and downloads tmdb info
   class TMDBDownloader
-     
     def initialize(collection)
       @collection = collection
       Tmdb::Api.key(ENV['API_KEY'])
-      Tmdb::Api.language("ru")
+      Tmdb::Api.language('ru')
     end
 
     def download_for(movie)
       info = full_movie(movie)
       title = info.title
       poster = "http://image.tmdb.org/t/p/w185/#{info.poster_path}"
-      {movie.imdb_id => {title: title, poster: poster}}
+      { movie.imdb_id => { title: title, poster: poster } }
     end
 
     def load_all!
       bar = ProgressBar.new(@collection.to_a.length)
-      @data = @collection.map do |movie| 
+      @data = @collection.map do |movie|
         bar.increment!
         download_for(movie)
       end
