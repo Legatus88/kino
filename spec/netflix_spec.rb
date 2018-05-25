@@ -3,7 +3,7 @@ require './netflix.rb'
 describe Netflix do
   
   let(:netflix) { Netflix.new('movies.txt') }  
-  let(:big_pay) { netflix.pay(200)}
+  let(:big_pay) { netflix.pay(200) }
   describe '.pay' do
     context 'when positive amount' do 
       it 'increases balance' do

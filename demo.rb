@@ -1,26 +1,19 @@
-require './movie_collection'
-require './netflix'
-require './theater'
-require 'csv'
-require './movie'
-require './ancient_movie'
-require './classic_movie'
-require './modern_movie'
-require './new_movie'
-require './genre_selection'
-require './country_selection'
-require 'virtus'
-
-
-#movies = MovieCollection.new('movies.txt')
-
-#oc = Netflix.new('movies.txt')
-#oc.buy_ticket("Citizen Kane")
-#puts oc.cash
-#oc.buy_ticket("The Terminator")
-
-
-#puts oc.how_much?('The Terminator')
+#require './movie_collection'
+#require './netflix'
+#require './theater'
+#require 'csv'
+#require './movie'
+#require './ancient_movie'
+#require './classic_movie'
+#require './modern_movie'
+#require './new_movie'
+#require './genre_selection'
+#require './country_selection'
+#require 'virtus'
+#require 'haml'
+#require 'yaml'
+#require 'themoviedb-api'
+#require 'progress_bar'
 
 #===== Выполнение .has_genre?(param)=====
 #begin
@@ -29,33 +22,6 @@ require 'virtus'
 #  puts e.message 
 #end
 #========================================
-
-#@hash[name] = block if from.nil?
-#raise ArgumentError, "Такого фильтра не существует" if @hash[from].nil?
-#@hash[name] = ->(movie) { @hash[from].call(movie, arg) }
-
-
-#oc = Theater.new("movies.txt")
-#oc.buy_ticket("Citizen Kane")
-#puts oc.when?("Citizen Kane")
-#oc.buy_ticket("Citizen Kane")
-
-#puts oc.cash.class
-#oc.buy_ticket("Citizen Kane")
-#oc.buy_ticket("Citizen Kane")
-#oc.buy_ticket("Citizen Kane")
-#puts oc.cash
-#oc.take("Bank")
-#puts oc.format_cash
-
-#puts oc.money
-#oc.pay(20)
-#puts oc.balance
-#puts Netflix.cash
-#oc.take("awdawd")
-
-#m = Money.new('123', :gbp) # => #<Money fractional:123 currency:GBP>
-#m.format( symbol: m.currency.to_s + ' ') # => "GBP 1.23"
 
 #begin
 #puts oc.balance
@@ -171,46 +137,48 @@ require 'virtus'
 #======================================================================================
 
 
-theater =
-  Theater.new('movies.txt') do
-    hall :red, title: 'Красный зал', places: 100
-    hall :blue, title: 'Синий зал', places: 50
-    hall :green, title: 'Зелёный зал (deluxe)', places: 12
+#theater =
+#  Theater.new('movies.txt') do
+#    hall :red, title: 'Красный зал', places: 100
+#    hall :blue, title: 'Синий зал', places: 50
+#    hall :green, title: 'Зелёный зал (deluxe)', places: 12
 
-    period '09:00'..'11:00' do
-      description 'Утренний сеанс'
-      filters genre: 'Comedy', year: 1900..1980
-      price 10
-      hall :red, :blue
-    end
+#    period '09:00'..'11:00' do
+#      description 'Утренний сеанс'
+#      filters genre: 'Comedy', year: 1900..1980
+#      price 10
+#      hall :red, :blue
+#    end
 
-    period '11:00'..'16:00' do
-      description 'Спецпоказ'
-      title 'The Terminator'
-      price 50
-      hall :green
-    end
+#    period '11:00'..'16:00' do
+#      description 'Спецпоказ'
+#      title 'The Terminator'
+#      price 50
+#      hall :green
+#    end
 
-    period '16:00'..'20:00' do
-      description 'Вечерний сеанс'
-      filters genre: ['Action', 'Drama'], year: 2007..Time.now.year
-      price 20
-      hall :red, :blue
-    end
+#    period '16:00'..'20:00' do
+#      description 'Вечерний сеанс'
+#      filters genre: ['Action', 'Drama'], year: 2007..Time.now.year
+#      price 20
+#      hall :red, :blue
+#    end
 
-    period '19:00'..'22:00' do
-      description 'Вечерний сеанс для киноманов'
-      filters year: 1900..1945, exclude_country: 'USA'
-      price 30
-      hall :green
-    end
-  end
+#    period '19:00'..'22:00' do
+#      description 'Вечерний сеанс для киноманов'
+#      filters year: 1900..1945, exclude_country: 'USA'
+#      price 30
+#      hall :green
+#    end
+#  end
 
-begin
-  puts theater.show('11:00')
-rescue ArgumentError
-  puts theater.show(:red, '11:00')
-end
+#begin
+#  puts theater.show('11:00')
+#rescue ArgumentError
+#  puts theater.show(:red, '11:00')
+#end
+
+
 
 
 #puts theater.valid?
@@ -237,10 +205,34 @@ end
 #minutes = arr.first.to_i*60 + arr.last.to_i + a
 #puts x = Time.at(minutes*60).utc.strftime("%H:%M")
 
+# первый вариант решения проблемы множественных запросов в ямл
+#  def self.additional_data_tmdb
+#    @additional_data_tmdb ||= YAML.load(File.read('./title_and_poster.yml'))
+#  end
 
-#theater.enter_the_timetable
+#  def self.additional_data_budget
+#    @additional_data_budget ||= YAML.load(File.read('./budget.yml'))
+#  end
 
-#h = gets.chomp.split(', ').map(&:to_sym)
 
-#puts theater.halls.first.color
-#puts theater.halls.select{|hall| hall.color == h[0]}
+
+require './movie_collection'
+require './tmdb_downloader.rb'
+require './budget_downloader.rb'
+require './render'
+require 'dotenv/load'
+
+col = MovieCollection.new('movies.txt')
+#fm = col.all.first
+
+bud = BudgetDownloader.new(col)
+#puts bud.download_for(fm)
+puts bud.load_all!
+bud.write_to('./budget.yml')
+
+tmdb = TMDBDownloader.new(col)
+#tmdb.download_for(col.all.last)
+tmdb.load_all!
+tmdb.write('./title_and_poster.yml')
+
+write_haml('./includes/index.html')
