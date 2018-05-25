@@ -13,7 +13,8 @@ module Extra
     end
 
     def download_for(movie)
-      div = open_from_hard(movie).at('div.txt-block:contains("Budget:")') or return nil
+      div = open_from_hard(movie).at('div.txt-block:contains("Budget:")')
+      return nil unless div
       div.search('span').each(&:remove)
       div.text.strip.sub(/^Budget:/, '')
     end
@@ -34,7 +35,9 @@ module Extra
     private
 
     def open_page(link)
+      # rubocop:disable Security/Open
       open(link, allow_redirections: :safe)
+      # rubocop:enable Security/Open
     end
 
     def download_page(movie)
