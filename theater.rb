@@ -2,17 +2,17 @@ require './movie_collection'
 require './hall'
 require './period'
 
+# regular theater class
 class Theater < MovieCollection
-
   attr_reader :halls, :periods
 
   def initialize(file_name, &block)
     super
     @halls = []
     @periods = []
-    instance_eval &block if block_given?
-    raise 'Расписание не корректно' if !self.valid?
-    raise 'В расписании есть дыры' if !self.no_holes?
+    instance_eval(&block) if block_given?
+    raise 'Расписание не корректно' unless self.valid?
+    raise 'В расписании есть дыры' unless self.no_holes?
   end
 
   include Cashbox
@@ -25,38 +25,38 @@ class Theater < MovieCollection
     @halls << Hall.new(hall_name, params)
   end
 
-  def show(hall=nil, time)
-    period_list = @periods.select{|period| period.time_range.cover?(time)}
+  def show(hall = nil, time)
+    period_list = @periods.select { |period| period.time_range.cover?(time) }
     raise 'В это время нет показов' if period_list.empty?
 
-    if period_list.length > 1 && hall == nil
+    if period_list.length > 1 && hall.nil?
       raise ArgumentError, 'Введите нужный зал'  
     elsif period_list.length > 1
-      period_list = period_list.select{|period| period.period_hall.include?(hall)}
+      period_list = period_list.select { |period| period.period_hall.include?(hall) }
     end
 
     list = filter(period_list.first.period_filters)
     random_movie = list.sort_by { |m| m.rate * rand }.last
-    print "Now showing: #{random_movie.title} #{Time.at(0).utc.strftime("%H:%M:%S")} - #{Time.at(random_movie.time*60).utc.strftime("%H:%M:%S")}"
+    print "Now showing: #{random_movie.title} #{Time.at(0).utc.strftime('%H:%M:%S')} - #{Time.at(random_movie.time * 60).utc.strftime('%H:%M:%S')}"
   end
 
   def when?(name)
     raise 'Такого фильма нет в прокате' if filter(title: name).empty?
-    @periods.select{|period| filter(period.period_filters).any?{|movie| movie.title == name }}.first.time_range
+    @periods.select { |period| filter(period.period_filters).any? { |movie| movie.title == name } }.first.time_range
   end
 
   def buy_ticket(movie)
-    raise NameError, "Такого фильма нет в прокате" if filter(title: movie).empty?
-    add_money(@periods.select{|period| period.time_range == when?(movie)}.first.period_price * 100)  
+    raise NameError, 'Такого фильма нет в прокате' if filter(title: movie).empty?
+    add_money(@periods.select { |period| period.time_range == when?(movie) }.first.period_price * 100)
     puts "Вы купили билет на #{movie}"
   end
 
   def valid?
     couples = periods.combination(2)
-    couples.none?{|fir, sec| sec.intersect?(fir) && (fir.period_hall & sec.period_hall).any?}
+    couples.none? { |fir, sec| sec.intersect?(fir) && (fir.period_hall & sec.period_hall).any? }
   end
 
-# печать расписания:
+  # печать расписания:
   def print_timetable
     @periods.each do |period| 
       period.to_s

@@ -224,14 +224,15 @@ require 'dotenv/load'
 require './extra'
 
 col = MovieCollection.new('movies.txt')
-#fm = col.all.first
 
-bud = BudgetDownloader.new(col)
+puts col.full_list.length
+#fm = col.all.first
 #puts bud.download_for(fm)
 #puts bud.load_all!
 #bud.write_to('./budget.yml')
-puts bud.open_page(col.all.first.link)#download_for(col.all.first)
-
+#puts Extra::BudgetDownloader.new(col).download_for(col.all.first)#download_for(col.all.first)
+#puts col.filter(period: :classic).first.description
+#puts BasicObject.superclass
 #tmdb = TMDBDownloader.new(col)
 #tmdb.download_for(col.all.last)
 #tmdb.load_all!

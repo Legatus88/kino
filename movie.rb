@@ -20,7 +20,7 @@ class Movie
   attribute :producer, String
   attribute :actors, String
   attribute :col, Object
- 
+
   def initialize(hash = {}, collection)
     @col = collection
     @my_hash = my_hash
@@ -58,7 +58,7 @@ class Movie
       new_key = key.to_s.sub('exclude_', '')
       return Array(send(new_key)).any? { |cell| cell != value }
     end
-    Array(send(key)).any? { |cell| Array(value).any?{ |v| v === cell } }
+    Array(send(key)).any? { |cell| Array(value).any? { |v| v === cell } }
   end
 
   def has_genre?(param)
