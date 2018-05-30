@@ -3,6 +3,7 @@ require 'open_uri_redirections'
 require 'nokogiri'
 require './movie_collection'
 require 'progress_bar'
+require './budget_downloader'
 
 # module for loading yaml files
 module Extra

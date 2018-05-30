@@ -1,5 +1,6 @@
 require './theater.rb'
 
+# Hall class
 class Hall
   attr_reader :color, :title, :places
 
