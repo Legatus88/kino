@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Module: Kino
+  
+    &mdash; Documentation by YARD 0.9.13
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  pathId = "Kino";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="_index.html">Index (K)</a> &raquo;
+    
+    
+    <span class="title">Kino</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Module: Kino
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/kino/theater/netflix.rb<span class="defines">,<br />
+  lib/kino/movie.rb,<br /> lib/kino/version.rb,<br /> lib/kino/new_movie.rb,<br /> lib/kino/extra/extra.rb,<br /> lib/kino/extra/render.rb,<br /> lib/kino/modern_movie.rb,<br /> lib/kino/theater/hall.rb,<br /> lib/kino/ancient_movie.rb,<br /> lib/kino/classic_movie.rb,<br /> lib/kino/theater/period.rb,<br /> lib/kino/genre_selection.rb,<br /> lib/kino/theater/cashbox.rb,<br /> lib/kino/theater/theater.rb,<br /> lib/kino/movie_collection.rb,<br /> lib/kino/country_selection.rb,<br /> lib/kino/extra/tmdb_downloader.rb,<br /> lib/kino/extra/budget_downloader.rb</span>
+</dd>
+  </dl>
+  
+</div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+  <div class="note notetag">
+    <strong>Note:</strong>
+    <div class='inline'>
+<p>for right initialization you need a file with a file with films in such
+format: <a
+href="http://imdb.com/title/tt0111161/?ref_=chttp_tt_1|The">imdb.com/title/tt0111161/?ref_=chttp_tt_1|The</a>
+Shawshank Redemption|1994|USA|1994-10-14|Crime,Drama|142 min|9.3|Frank
+Darabont|Tim Robbins,Morgan Freeman,Bob Gunton</p>
+</div>
+  </div>
+
+
+<p>Online cinema. It can take money on balance and show movies. Also it has
+external cashbox as a module with it&#39;s own capabilities such as taking
+cash out, calling police etc.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='const'>Kino</span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Kino/Netflix.html" title="Kino::Netflix (class)">Netflix</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Kino/MovieCollection.html#new-instance_method" title="Kino::MovieCollection#new (method)">new</a></span></span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>movies.txt</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span></code></pre>
+    
+  </div>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Kino/Netflix.html" title="Kino::Netflix (class)">Kino::Netflix</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Netflix class</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="Kino/MovieCollection.html" title="Kino::MovieCollection (class)">MovieCollection</a></span></li>
+    
+  </ul>
+
+</div><h2>Defined Under Namespace</h2>
+<p class="children">
+  
+    
+      <strong class="modules">Modules:</strong> <span class='object_link'><a href="Kino/Cashbox.html" title="Kino::Cashbox (module)">Cashbox</a></span>, <span class='object_link'><a href="Kino/Extra.html" title="Kino::Extra (module)">Extra</a></span>
+    
+  
+    
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="Kino/AncientMovie.html" title="Kino::AncientMovie (class)">AncientMovie</a></span>, <span class='object_link'><a href="Kino/ClassicMovie.html" title="Kino::ClassicMovie (class)">ClassicMovie</a></span>, <span class='object_link'><a href="Kino/CountrySelection.html" title="Kino::CountrySelection (class)">CountrySelection</a></span>, <span class='object_link'><a href="Kino/GenreSelection.html" title="Kino::GenreSelection (class)">GenreSelection</a></span>, <span class='object_link'><a href="Kino/Hall.html" title="Kino::Hall (class)">Hall</a></span>, <span class='object_link'><a href="Kino/ModernMovie.html" title="Kino::ModernMovie (class)">ModernMovie</a></span>, <span class='object_link'><a href="Kino/Movie.html" title="Kino::Movie (class)">Movie</a></span>, <span class='object_link'><a href="Kino/MovieCollection.html" title="Kino::MovieCollection (class)">MovieCollection</a></span>, <span class='object_link'><a href="Kino/Netflix.html" title="Kino::Netflix (class)">Netflix</a></span>, <span class='object_link'><a href="Kino/NewMovie.html" title="Kino::NewMovie (class)">NewMovie</a></span>, <span class='object_link'><a href="Kino/Period.html" title="Kino::Period (class)">Period</a></span>, <span class='object_link'><a href="Kino/Theater.html" title="Kino::Theater (class)">Theater</a></span>
+    
+  
+</p>
+
+  
+    <h2>
+      Constant Summary
+      <small><a href="#" class="constants_summary_toggle">collapse</a></small>
+    </h2>
+
+    <dl class="constants">
+      
+        <dt id="VERSION-constant" class="">VERSION =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>0.0.1</span><span class='tstring_end'>&quot;</span></span></pre></dd>
+      
+    </dl>
+  
+
+
+
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#write_haml-instance_method" title="#write_haml (instance method)">#<strong>write_haml</strong>(path)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="write_haml-instance_method">
+  
+    #<strong>write_haml</strong>(path)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+5
+6
+7
+8
+9
+10
+11
+12</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/kino/extra/render.rb', line 5</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_write_haml'>write_haml</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_template'>template</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>./includes/index.haml</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_haml_engine'>haml_engine</span> <span class='op'>=</span> <span class='const'>Haml</span><span class='op'>::</span><span class='const'>Engine</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_template'>template</span><span class='rparen'>)</span>
+  <span class='comment'># rubocop:disable Metrics/LineLength
+</span>  <span class='id identifier rubyid_output'>output</span> <span class='op'>=</span> <span class='id identifier rubyid_haml_engine'>haml_engine</span><span class='period'>.</span><span class='id identifier rubyid_render'>render</span><span class='lparen'>(</span><span class='const'>Object</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='comma'>,</span> <span class='label'>collection:</span> <span class='const'><span class='object_link'><a href="Kino/MovieCollection.html" title="Kino::MovieCollection (class)">MovieCollection</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Kino/MovieCollection.html#new-instance_method" title="Kino::MovieCollection#new (method)">new</a></span></span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>movies.txt</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='rparen'>)</span>
+  <span class='comment'># rubocop:enable Metrics/LineLength
+</span>  <span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_write'>write</span><span class='lparen'>(</span><span class='id identifier rubyid_path'>path</span><span class='comma'>,</span> <span class='id identifier rubyid_output'>output</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Sat Jun  2 16:29:15 2018 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.13 (ruby-2.3.1).
+</div>
+
+    </div>
+  </body>
+</html>
