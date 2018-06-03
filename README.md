@@ -57,36 +57,44 @@ Kino::MovieCollection.new('movie.txt').stats(:director)
 
 ### Netflix capabilities
 
+We need to initialize online cinema and assign it to variable.
+
+```ruby
+netflix = Kino::Netflix.new('movie.txt')
+```
+
+Now we can use all its features.
+
 ```ruby
 # Top up the balance:
-Kino::Netflix.new('movie.txt').pay(20)
+netflix.pay(20)
 
 # Showing user's balance:
-Kino::Netflix.new('movie.txt').balance
+netflix.balance
 
 # Define user's filter:
-Kino::Netflix.new('movie.txt').define_filter(:new_sci_fi) { |movie, year| movie.year &gt; year &amp;&amp; ... }
+netflix.define_filter(:new_sci_fi) { |movie, year| movie.year &gt; year &amp;&amp; ... }
 
 # Adding parameter to user's filter:
-Kino::Netflix.new('movie.txt').show(new_sci_fi: 2010)
+netflix.show(new_sci_fi: 2010)
 
 # Editing user's filter: 
-Kino::Netflix.new('movie.txt').define_filter(:newest_sci_fi, from: :new_sci_fi, arg: 2014)
+netflix.define_filter(:newest_sci_fi, from: :new_sci_fi, arg: 2014)
 
 # Showing random movie using some filters:
-Kino::Netflix.new('movie.txt').show(genre: 'Comedy')
+netflix.show(genre: 'Comedy')
 
 # Getting movie's price:
-Kino::Netflix.new('movie.txt').how_much?('Citizen Kane')
+netflix.how_much?('Citizen Kane')
 
 # Showing all movies with selected genre using DSL:
-Kino::Netflix.new('movie.txt').by_genre.comedy
+netflix.by_genre.comedy
 
 # Showing all movies with selected country using DSL:
-Kino::Netflix.new('movie.txt').by_country.canada
+netflix.by_country.canada
 
 # Take money from the cashbox:
-Kino::Netflix.new('movie.txt').take('Bank')
+netflix.take('Bank')
 ```
 
 ### Theater capabilities
