@@ -20,5 +20,5 @@ netflix = Kino::Netflix.new('../movies.txt')
 #netflix.pay(money_amount)
 #netflix.show(fil)
 
-puts netflix.by_genre.comedy.class
+puts netflix.stats(:producer)
 #puts netflix.balance
