@@ -151,7 +151,52 @@ It also has some features that I didn't mention like shedule generation. Check i
 
 ### Scraping, API'ing and rendering HTML page
 
+We can download russian title and poster path using TMDB api.
+
+First of all, we need should create a MovieCollection.
+
 ```ruby
-# I will write them if it necesary
+collection = MovieCollection.new('movies.txt')
 ```
 
+Now, we can download what we want.
+
+```ruby
+# Initializing downloader
+tmdb_downloader = Kino::Extra::TMDBDownloader.new(collection)
+
+# Download title and poster for one movie:
+tmdb_downloader.download_for(collection.first)
+
+# Download title and poster for whole collection:
+tmdb_downloader.load_all!
+
+# Write all information to YAML file:
+tmdb_downloader.write('./tmdb_info')
+
+```
+
+Next one is budget. We will get it using scraping.
+
+```ruby
+# Initializing downloader
+budget_downloader = Kino::Extra::BudgerDownloader.new(collection)
+
+# Download budget for one movie:
+budget_downloader.download_for(collection.first)
+
+# Download title and poster for whole collection:
+budget_downloader.load_all!
+
+# Write all information to YAML file:
+budget_downloader.write('./budget_info')
+```
+
+Finally, we're ready for rendering all info into ***.html***
+
+```ruby
+# After writing titles, posters and budget to YAML files use this command:
+Kino::write_haml('./index.html')
+```
+
+Fin!
