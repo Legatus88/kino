@@ -59,37 +59,40 @@ Kino::MovieCollection.new('movie.txt').stats(:director)
 
 ```ruby
 # Top up the balance:
-Kino::MovieCollection.new('movie.txt').pay(20)
+Kino::Netflix.new('movie.txt').pay(20)
 
 # Showing user's balance:
-Kino::MovieCollection.new('movie.txt').balance
+Kino::Netflix.new('movie.txt').balance
 
 # Define user's filter:
-Kino::MovieCollection.new('movie.txt').define_filter(:new_sci_fi) { |movie, year| movie.year &gt; year &amp;&amp; ... }
+Kino::Netflix.new('movie.txt').define_filter(:new_sci_fi) { |movie, year| movie.year &gt; year &amp;&amp; ... }
 
 # Adding parameter to user's filter:
-Kino::MovieCollection.new('movie.txt').show(new_sci_fi: 2010)
+Kino::Netflix.new('movie.txt').show(new_sci_fi: 2010)
 
 # Editing user's filter: 
-Kino::MovieCollection.new('movie.txt').define_filter(:newest_sci_fi, from: :new_sci_fi, arg: 2014)
+Kino::Netflix.new('movie.txt').define_filter(:newest_sci_fi, from: :new_sci_fi, arg: 2014)
 
 # Showing random movie using some filters:
-Kino::MovieCollection.new('movie.txt').show(genre: 'Comedy')
+Kino::Netflix.new('movie.txt').show(genre: 'Comedy')
 
 # Getting movie's price:
-Kino::MovieCollection.new('movie.txt').how_much?('Citizen Kane')
+Kino::Netflix.new('movie.txt').how_much?('Citizen Kane')
 
 # Showing all movies with selected genre using DSL:
-Kino::MovieCollection.new('movie.txt').by_genre.comedy
+Kino::Netflix.new('movie.txt').by_genre.comedy
 
 # Showing all movies with selected country using DSL:
-Kino::MovieCollection.new('movie.txt').by_country.canada
+Kino::Netflix.new('movie.txt').by_country.canada
+
+# Take money from the cashbox:
+Kino::Netflix.new('movie.txt').take('Bank')
 ```
 
 ### Theater capabilities
 
 ```ruby
-# I will write them if it necesary
+
 ```
 
 ### Scraping, API'ing and rendering HTML page
