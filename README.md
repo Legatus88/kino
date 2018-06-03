@@ -58,7 +58,32 @@ Kino::MovieCollection.new('movie.txt').stats(:director)
 ### Netflix capabilities
 
 ```ruby
-# I will write them if it necesary
+# Top up the balance:
+Kino::MovieCollection.new('movie.txt').pay(20)
+
+# Showing user's balance:
+Kino::MovieCollection.new('movie.txt').balance
+
+# Define user's filter:
+Kino::MovieCollection.new('movie.txt').define_filter(:new_sci_fi) { |movie, year| movie.year &gt; year &amp;&amp; ... }
+
+# Adding parameter to user's filter:
+Kino::MovieCollection.new('movie.txt').show(new_sci_fi: 2010)
+
+# Editing user's filter: 
+Kino::MovieCollection.new('movie.txt').define_filter(:newest_sci_fi, from: :new_sci_fi, arg: 2014)
+
+# Showing random movie using some filters:
+Kino::MovieCollection.new('movie.txt').show(genre: 'Comedy')
+
+# Getting movie's price:
+Kino::MovieCollection.new('movie.txt').how_much?('Citizen Kane')
+
+# Showing all movies with selected genre using DSL:
+Kino::MovieCollection.new('movie.txt').by_genre.comedy
+
+# Showing all movies with selected country using DSL:
+Kino::MovieCollection.new('movie.txt').by_country.canada
 ```
 
 ### Theater capabilities
